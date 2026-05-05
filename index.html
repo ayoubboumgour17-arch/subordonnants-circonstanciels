@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subordonnants Circonstanciels</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f4f8; }
+    input, select, button { font-family: inherit; }
+    ::-webkit-scrollbar { height: 6px; width: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: #90a4ae; border-radius: 4px; }
+    table { border-collapse: separate; border-spacing: 0; }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useMemo } = React;
+
+const ADMIN_CODE = "20908070";
+
+const CATEGORIES = ["Cause","Conséquence","But","Temps","Condition","Comparaison","Concession","Opposition"];
+
+const CAT_COLORS = {
+  Cause:       { bg:"#FFF3CD", header:"#F0A500", text:"#7A5000" },
+  Conséquence: { bg:"#D4EDDA", header:"#28A745", text:"#155724" },
+  But:         { bg:"#D1ECF1", header:"#17A2B8", text:"#0C5460" },
+  Temps:       { bg:"#E2D9F3", header:"#7B2D8B", text:"#4A1A5C" },
+  Condition:   { bg:"#FFE5D9", header:"#E05C00", text:"#7D3300" },
+  Comparaison: { bg:"#D6E4FF", header:"#2979FF", text:"#0D47A1" },
+  Concession:  { bg:"#FCE4EC", header:"#E91E63", text:"#880E4F" },
+  Opposition:  { bg:"#E8F5E9", header:"#388E3C", text:"#1B5E20" },
+};
+
+const INITIAL_DATA = [
+  {id:1,  s:"Comme",                                                            v:[1,0,0,1,0,1,0,0]},
+  {id:2,  s:"D'autant plus que",                                                v:[1,0,0,0,0,0,0,0]},
+  {id:3,  s:"Du fait que",                                                      v:[1,0,0,0,0,0,0,0]},
+  {id:4,  s:"Du moment que",                                                    v:[1,1,0,0,0,0,0,0]},
+  {id:5,  s:"Étant donné que",                                                  v:[1,0,0,0,0,0,0,0]},
+  {id:6,  s:"Parce que",                                                        v:[1,0,0,0,0,0,0,0]},
+  {id:7,  s:"Puisque",                                                          v:[1,0,0,0,0,0,0,0]},
+  {id:8,  s:"Vu que",                                                           v:[1,0,0,0,0,0,0,0]},
+  {id:9,  s:"Sous prétexte que",                                                v:[1,0,0,0,0,0,0,0]},
+  {id:10, s:"Si",                                                               v:[1,0,0,0,1,0,0,0]},
+  {id:11, s:"Dès lors que",                                                     v:[1,0,0,1,0,0,0,0]},
+  {id:12, s:"Dès l'instant que",                                                v:[1,0,0,1,0,0,0,0]},
+  {id:13, s:"Pourvu que",                                                       v:[0,0,0,0,1,0,0,0]},
+  {id:14, s:"D'autant plus / moins que",                                        v:[1,0,0,0,0,1,0,0]},
+  {id:15, s:"Aussi que / Plus…que",                                             v:[0,0,0,0,0,1,0,0]},
+  {id:16, s:"Moins que / Plus que",                                             v:[0,0,0,0,0,1,0,0]},
+  {id:17, s:"Autrement que / Plutôt que",                                       v:[0,0,0,0,0,1,0,0]},
+  {id:18, s:"Dès que / Depuis que / Aussitôt que / Sitôt que / Une fois que / Après que / À peine…que {postériorité}", v:[0,0,0,1,0,0,0,0]},
+  {id:19, s:"Jusqu'à ce que / Avant que / En attendant que / Jusqu'au moment où {antériorité}",                       v:[0,0,0,1,0,0,0,0]},
+  {id:20, s:"Lorsque / Quand / Au moment où / Pendant que / Comme / Aussi longtemps que / Tant que / Chaque fois que / Alors que / Tandis que {simultanéité}", v:[0,0,0,1,0,0,0,0]},
+  {id:21, s:"Ainsi que",                                                        v:[0,0,0,0,0,1,0,0]},
+  {id:22, s:"Tandis que",                                                       v:[0,0,0,1,0,0,0,1]},
+  {id:23, s:"Quand",                                                            v:[0,0,0,1,0,0,0,1]},
+  {id:24, s:"De même que",                                                      v:[0,0,0,0,0,1,0,0]},
+  {id:25, s:"Alors que",                                                        v:[0,0,0,1,0,0,0,1]},
+  {id:26, s:"Sans que",                                                         v:[0,1,0,0,0,0,0,1]},
+  {id:27, s:"Quand bien même",                                                  v:[0,0,0,0,0,0,1,0]},
+  {id:28, s:"Quoique",                                                          v:[0,0,0,0,0,0,1,0]},
+  {id:29, s:"Bien que",                                                         v:[0,0,0,0,0,0,1,0]},
+  {id:30, s:"Si…que",                                                           v:[0,1,0,0,0,0,1,0]},
+  {id:31, s:"Même si",                                                          v:[0,0,0,0,1,0,0,1]},
+  {id:32, s:"C'est parce que…que / C'est que…que",                             v:[1,0,0,0,0,0,0,0]},
+  {id:33, s:", si bien que",                                                    v:[0,1,0,0,0,0,0,0]},
+  {id:34, s:"Tant et si bien que",                                              v:[0,1,0,0,0,0,0,0]},
+  {id:35, s:"Tant (tellement) + que",                                           v:[0,1,0,0,0,0,0,0]},
+  {id:36, s:"Si (tellement) + que",                                             v:[0,1,0,0,0,0,0,0]},
+  {id:37, s:"Afin que",                                                         v:[0,0,1,0,0,0,0,0]},
+  {id:38, s:"Pour que",                                                         v:[0,1,1,0,0,0,0,0]},
+  {id:39, s:"Dans l'espoir que",                                                v:[0,0,1,0,0,0,0,0]},
+  {id:40, s:"Pour que…ne…pas / Afin que…ne…pas",                               v:[0,0,1,0,0,0,0,0]},
+  {id:41, s:"De crainte que / De peur que",                                     v:[0,0,1,0,0,0,0,0]},
+  {id:42, s:"De manière que / De sorte que / De façon que",                     v:[0,1,1,0,0,0,0,0]},
+  {id:43, s:"À seule fin que",                                                  v:[0,0,1,0,0,0,0,0]},
+  {id:44, s:"Au lieu que",                                                      v:[0,0,0,0,0,0,0,1]},
+  {id:45, s:"Bien loin que / Loin que",                                         v:[0,0,0,0,0,0,0,1]},
+  {id:46, s:"Excepté que",                                                      v:[0,0,0,0,0,0,0,1]},
+  {id:47, s:"Sauf que",                                                         v:[0,0,0,0,0,0,0,1]},
+  {id:48, s:"Bien que / Quoique / Encore que / Sans que / Quelque…que",         v:[0,0,0,0,0,0,1,0]},
+  {id:49, s:"Sauf si",                                                          v:[0,0,0,0,1,0,0,0]},
+  {id:50, s:"Excepté si",                                                       v:[0,0,0,0,1,0,0,0]},
+  {id:51, s:"Dans la mesure où",                                                v:[0,0,0,0,1,0,0,0]},
+  {id:52, s:"Selon que…ou / Suivant que…ou",                                    v:[0,0,0,0,1,0,0,0]},
+  {id:53, s:"À supposer que / À condition que / Soit que…soit que",             v:[0,0,0,0,1,0,0,0]},
+  {id:54, s:"À moins que…(ne)",                                                 v:[0,0,0,0,1,0,0,0]},
+  {id:55, s:"Pour peu que",                                                     v:[0,0,0,0,1,0,0,0]},
+  {id:56, s:"Que…ou que…",                                                      v:[0,0,0,0,1,0,0,0]},
+  {id:57, s:"Tel que",                                                          v:[0,0,0,0,0,1,0,0]},
+  {id:58, s:"Davantage que",                                                    v:[0,0,0,0,0,1,0,0]},
+  {id:59, s:"D'ici à ce que",                                                   v:[0,0,0,1,0,0,0,0]},
+  {id:60, s:"Moyennant que",                                                    v:[0,0,0,0,1,0,0,0]},
+  {id:61, s:"Si tant est que",                                                  v:[0,0,0,0,1,0,0,0]},
+  {id:62, s:"Attendu que",                                                      v:[1,0,0,0,0,0,0,0]},
+  {id:63, s:"Hormis que",                                                       v:[0,0,0,0,1,0,0,0]},
+];
+
+function loadRows() {
+  try { const d = localStorage.getItem("sub_rows"); return d ? JSON.parse(d) : INITIAL_DATA; } catch { return INITIAL_DATA; }
+}
+function saveRows(rows) {
+  try { localStorage.setItem("sub_rows", JSON.stringify(rows)); } catch {}
+}
+
+function App() {
+  const [role, setRole] = useState(null);
+  const [adminStep, setAdminStep] = useState(false);
+  const [code, setCode] = useState("");
+  const [codeErr, setCodeErr] = useState("");
+  const [rows, setRowsState] = useState(loadRows);
+  const [search, setSearch] = useState("");
+  const [filterCat, setFilterCat] = useState(null);
+  const [editRow, setEditRow] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+  const [newSub, setNewSub] = useState("");
+  const [newVals, setNewVals] = useState(Array(8).fill(0));
+  const [toast, setToast] = useState("");
+
+  const setRows = (r) => { setRowsState(r); saveRows(r); };
+
+  const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(""), 2500); };
+
+  const handleAdminLogin = () => {
+    if (code === ADMIN_CODE) { setRole("admin"); setCodeErr(""); }
+    else setCodeErr("Code incorrect. Veuillez réessayer.");
+  };
+
+  const filtered = useMemo(() => rows.filter(r => {
+    const ms = r.s.toLowerCase().includes(search.toLowerCase());
+    const mc = filterCat === null || r.v[CATEGORIES.indexOf(filterCat)] === 1;
+    return ms && mc;
+  }), [rows, search, filterCat]);
+
+  const saveEdit = () => {
+    setRows(rows.map(r => r.id === editRow.id ? editRow : r));
+    setEditRow(null);
+    showToast("✅ Modification enregistrée");
+  };
+
+  const deleteRow = (id) => { setRows(rows.filter(r => r.id !== id)); showToast("🗑️ Ligne supprimée"); };
+
+  const addRow = () => {
+    if (!newSub.trim()) return;
+    const newId = Math.max(...rows.map(r => r.id), 0) + 1;
+    setRows([...rows, { id: newId, s: newSub.trim(), v: [...newVals] }]);
+    setNewSub(""); setNewVals(Array(8).fill(0)); setShowForm(false);
+    showToast("✅ Subordonnant ajouté");
+  };
+
+  const isAdmin = role === "admin";
+
+  // LOGIN SCREEN
+  if (!role) return (
+    <div style={{minHeight:"100vh",background:"linear-gradient(135deg,#1a237e,#1565c0)",display:"flex",alignItems:"center",justifyContent:"center",padding:16}}>
+      <div style={{background:"white",borderRadius:20,padding:"40px 32px",width:"100%",maxWidth:400,boxShadow:"0 20px 60px rgba(0,0,0,0.3)",textAlign:"center"}}>
+        <div style={{fontSize:52,marginBottom:8}}>📚</div>
+        <h1 style={{fontSize:20,fontWeight:800,color:"#1a237e",marginBottom:4}}>Subordonnants Circonstanciels</h1>
+        <p style={{color:"#888",fontSize:13,marginBottom:32}}>Choisissez votre profil pour accéder au tableau</p>
+
+        {!adminStep ? (
+          <div style={{display:"flex",gap:12}}>
+            <button onClick={() => setRole("apprenant")} style={{flex:1,padding:"14px 0",borderRadius:12,border:"2px solid #e3f2fd",background:"#e3f2fd",color:"#1565c0",fontWeight:700,cursor:"pointer",fontSize:15}}>
+              👨‍🎓 Apprenant
+            </button>
+            <button onClick={() => setAdminStep(true)} style={{flex:1,padding:"14px 0",borderRadius:12,border:"2px solid #fff3e0",background:"#fff3e0",color:"#e65100",fontWeight:700,cursor:"pointer",fontSize:15}}>
+              🔐 Administrateur
+            </button>
+          </div>
+        ) : (
+          <div style={{background:"#f8f9fa",borderRadius:12,padding:20}}>
+            <p style={{fontWeight:600,color:"#333",marginBottom:10}}>Code d'accès administrateur</p>
+            <input type="password" value={code} onChange={e=>{setCode(e.target.value);setCodeErr("");}}
+              onKeyDown={e=>e.key==="Enter"&&handleAdminLogin()}
+              placeholder="Entrez le code" style={{width:"100%",padding:"10px 14px",borderRadius:8,border:"2px solid #ddd",fontSize:18,letterSpacing:6,textAlign:"center",marginBottom:10}}/>
+            {codeErr && <p style={{color:"#c62828",fontSize:13,marginBottom:8}}>{codeErr}</p>}
+            <button onClick={handleAdminLogin} style={{width:"100%",padding:"10px 0",background:"#1a237e",color:"white",border:"none",borderRadius:8,fontWeight:700,cursor:"pointer",fontSize:15,marginBottom:8}}>Valider</button>
+            <button onClick={()=>{setAdminStep(false);setCode("");setCodeErr("");}} style={{width:"100%",padding:"8px 0",background:"#f5f5f5",color:"#555",border:"none",borderRadius:8,cursor:"pointer",fontSize:13}}>← Retour</button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  // MAIN APP
+  return (
+    <div style={{minHeight:"100vh",background:"#f0f4f8"}}>
+
+      {/* Toast */}
+      {toast && <div style={{position:"fixed",bottom:28,left:"50%",transform:"translateX(-50%)",background:"#212121",color:"white",padding:"12px 24px",borderRadius:40,fontWeight:600,fontSize:14,zIndex:1000,boxShadow:"0 8px 24px rgba(0,0,0,0.3)",whiteSpace:"nowrap"}}>{toast}</div>}
+
+      {/* Header */}
+      <div style={{background:isAdmin?"linear-gradient(90deg,#1a237e,#0d47a1)":"linear-gradient(90deg,#1565c0,#1976d2)",color:"white",padding:"16px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",boxShadow:"0 4px 20px rgba(0,0,0,0.2)"}}>
+        <div>
+          <div style={{fontSize:17,fontWeight:800}}>📖 Subordonnants Circonstanciels</div>
+          <div style={{fontSize:12,opacity:0.8,marginTop:2}}>{isAdmin?"🔐 Administrateur":"👨‍🎓 Apprenant"} · {rows.length} subordonnants</div>
+        </div>
+        <button onClick={()=>{setRole(null);setAdminStep(false);setCode("");}} style={{background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.3)",color:"white",padding:"7px 14px",borderRadius:8,cursor:"pointer",fontWeight:600,fontSize:13}}>Déconnexion</button>
+      </div>
+
+      <div style={{padding:"20px 16px",maxWidth:1400,margin:"0 auto"}}>
+
+        {/* Controls */}
+        <div style={{display:"flex",gap:10,flexWrap:"wrap",marginBottom:16,alignItems:"center"}}>
+          <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="🔍 Rechercher…"
+            style={{padding:"10px 14px",borderRadius:10,border:"2px solid #ddd",fontSize:14,flex:"1 1 200px",minWidth:160}}/>
+          <select value={filterCat||""} onChange={e=>setFilterCat(e.target.value||null)}
+            style={{padding:"10px 12px",borderRadius:10,border:"2px solid #ddd",fontSize:14,background:"white",cursor:"pointer"}}>
+            <option value="">Toutes les catégories</option>
+            {CATEGORIES.map(c=><option key={c} value={c}>{c}</option>)}
+          </select>
+          {isAdmin && <button onClick={()=>setShowForm(!showForm)} style={{background:"#1a237e",color:"white",border:"none",padding:"10px 18px",borderRadius:10,fontWeight:700,cursor:"pointer",fontSize:14}}>➕ Ajouter</button>}
+        </div>
+
+        {/* Add form */}
+        {isAdmin && showForm && (
+          <div style={{background:"white",borderRadius:14,padding:20,marginBottom:16,boxShadow:"0 4px 16px rgba(0,0,0,0.1)",border:"2px solid #e3f2fd"}}>
+            <div style={{fontWeight:700,color:"#1a237e",marginBottom:12}}>➕ Nouveau subordonnant</div>
+            <input value={newSub} onChange={e=>setNewSub(e.target.value)} placeholder="Subordonnant…"
+              style={{width:"100%",padding:"10px 14px",borderRadius:8,border:"2px solid #ddd",fontSize:14,marginBottom:12}}/>
+            <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:14}}>
+              {CATEGORIES.map((cat,i)=>(
+                <label key={cat} style={{display:"flex",alignItems:"center",gap:5,cursor:"pointer",padding:"6px 12px",borderRadius:20,background:newVals[i]?CAT_COLORS[cat].header:"#f0f0f0",color:newVals[i]?"white":"#555",fontWeight:600,fontSize:13,transition:"all 0.15s"}}>
+                  <input type="checkbox" checked={!!newVals[i]} onChange={()=>{const nv=[...newVals];nv[i]=nv[i]?0:1;setNewVals(nv);}} style={{display:"none"}}/>
+                  {cat}
+                </label>
+              ))}
+            </div>
+            <div style={{display:"flex",gap:10}}>
+              <button onClick={addRow} style={{background:"#1a237e",color:"white",border:"none",padding:"10px 22px",borderRadius:8,fontWeight:700,cursor:"pointer"}}>Enregistrer</button>
+              <button onClick={()=>setShowForm(false)} style={{background:"#f5f5f5",color:"#333",border:"none",padding:"10px 18px",borderRadius:8,fontWeight:600,cursor:"pointer"}}>Annuler</button>
+            </div>
+          </div>
+        )}
+
+        {/* Category pills */}
+        <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:16}}>
+          {CATEGORIES.map(cat=>(
+            <span key={cat} onClick={()=>setFilterCat(filterCat===cat?null:cat)} style={{padding:"5px 14px",borderRadius:20,background:filterCat===cat?CAT_COLORS[cat].header:CAT_COLORS[cat].bg,color:filterCat===cat?"white":CAT_COLORS[cat].text,fontSize:12,fontWeight:700,cursor:"pointer",border:`2px solid ${CAT_COLORS[cat].header}`,transition:"all 0.15s"}}>
+              {cat}
+            </span>
+          ))}
+        </div>
+
+        {/* Table */}
+        <div style={{overflowX:"auto",borderRadius:14,boxShadow:"0 4px 24px rgba(0,0,0,0.10)"}}>
+          <table style={{width:"100%",minWidth:900,borderCollapse:"separate",borderSpacing:0}}>
+            <thead>
+              <tr>
+                <th style={{background:"#1a237e",color:"white",padding:"13px 16px",textAlign:"left",fontWeight:700,fontSize:14,borderRadius:"14px 0 0 0",position:"sticky",left:0,zIndex:2,minWidth:220}}>Le Subordonnant</th>
+                {CATEGORIES.map((cat,i)=>(
+                  <th key={cat} style={{background:CAT_COLORS[cat].header,color:"white",padding:"13px 8px",textAlign:"center",fontWeight:700,fontSize:12,minWidth:88,borderRadius:i===CATEGORIES.length-1&&!isAdmin?"0 14px 0 0":0}}>{cat}</th>
+                ))}
+                {isAdmin && <th style={{background:"#37474f",color:"white",padding:"13px 8px",textAlign:"center",fontWeight:700,fontSize:12,borderRadius:"0 14px 0 0",minWidth:90}}>Actions</th>}
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((row,idx)=> editRow?.id===row.id ? (
+                <tr key={row.id} style={{background:"#e3f2fd"}}>
+                  <td style={{padding:"10px 12px",position:"sticky",left:0,background:"#e3f2fd",zIndex:1}}>
+                    <input value={editRow.s} onChange={e=>setEditRow({...editRow,s:e.target.value})}
+                      style={{width:"100%",padding:"7px 10px",borderRadius:6,border:"2px solid #90caf9",fontSize:13}}/>
+                  </td>
+                  {CATEGORIES.map((cat,i)=>(
+                    <td key={i} style={{textAlign:"center",padding:"10px 8px"}}>
+                      <input type="checkbox" checked={!!editRow.v[i]} onChange={()=>{const nv=[...editRow.v];nv[i]=nv[i]?0:1;setEditRow({...editRow,v:nv});}}
+                        style={{width:18,height:18,cursor:"pointer",accentColor:CAT_COLORS[cat].header}}/>
+                    </td>
+                  ))}
+                  <td style={{textAlign:"center",padding:"10px 8px",whiteSpace:"nowrap"}}>
+                    <button onClick={saveEdit} style={{background:"#2e7d32",color:"white",border:"none",padding:"6px 12px",borderRadius:6,cursor:"pointer",fontWeight:700,marginRight:4}}>✓</button>
+                    <button onClick={()=>setEditRow(null)} style={{background:"#c62828",color:"white",border:"none",padding:"6px 12px",borderRadius:6,cursor:"pointer",fontWeight:700}}>✕</button>
+                  </td>
+                </tr>
+              ) : (
+                <tr key={row.id} style={{background:idx%2===0?"white":"#f8f9fa"}}
+                  onMouseEnter={e=>e.currentTarget.style.background="#e8eaf6"}
+                  onMouseLeave={e=>e.currentTarget.style.background=idx%2===0?"white":"#f8f9fa"}>
+                  <td style={{padding:"11px 16px",fontSize:13,fontWeight:500,color:"#212121",borderBottom:"1px solid #eee",position:"sticky",left:0,background:idx%2===0?"white":"#f8f9fa",zIndex:1,maxWidth:280}}>{row.s}</td>
+                  {row.v.map((val,i)=>(
+                    <td key={i} style={{textAlign:"center",padding:"11px 8px",borderBottom:"1px solid #eee",background:val?CAT_COLORS[CATEGORIES[i]].bg:"inherit"}}>
+                      {val
+                        ? <span style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:22,height:22,background:CAT_COLORS[CATEGORIES[i]].header,borderRadius:"50%",color:"white",fontSize:13,fontWeight:800}}>✓</span>
+                        : <span style={{color:"#ccc",fontSize:18}}>·</span>}
+                    </td>
+                  ))}
+                  {isAdmin && (
+                    <td style={{textAlign:"center",padding:"11px 8px",borderBottom:"1px solid #eee",whiteSpace:"nowrap"}}>
+                      <button onClick={()=>setEditRow({...row,v:[...row.v]})} style={{background:"#1565c0",color:"white",border:"none",padding:"5px 10px",borderRadius:6,cursor:"pointer",fontSize:12,fontWeight:700,marginRight:4}}>✏️</button>
+                      <button onClick={()=>deleteRow(row.id)} style={{background:"#c62828",color:"white",border:"none",padding:"5px 10px",borderRadius:6,cursor:"pointer",fontSize:12,fontWeight:700}}>🗑️</button>
+                    </td>
+                  )}
+                </tr>
+              ))}
+              {filtered.length===0 && (
+                <tr><td colSpan={CATEGORIES.length+(isAdmin?2:1)} style={{textAlign:"center",padding:40,color:"#999",fontSize:15}}>Aucun résultat trouvé.</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        <div style={{textAlign:"center",marginTop:24,color:"#90a4ae",fontSize:12}}>
+          Réalisé par : Omar Salhi / Nouredine Izerane · Morphosyntaxe 2 · Semestre 4 · 27/04/2026
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
