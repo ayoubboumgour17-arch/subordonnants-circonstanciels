@@ -200,7 +200,7 @@ function App() {
       <div style={{background:isAdmin?"linear-gradient(90deg,#1a237e,#0d47a1)":"linear-gradient(90deg,#1565c0,#1976d2)",color:"white",padding:"16px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",boxShadow:"0 4px 20px rgba(0,0,0,0.2)"}}>
         <div>
           <div style={{fontSize:17,fontWeight:800}}>📖 Subordonnants Circonstanciels</div>
-          <div style={{fontSize:12,opacity:0.8,marginTop:2}}>{isAdmin?"🔐 Administrateur":"👨‍🎓 Apprenant"} · {rows.length} subordonnants</div>
+          <div style={{fontSize:12,opacity:0.8,marginTop:2}}>{isAdmin?"🔐 Admin":"👨‍🎓 Étudiant(e)"} · {rows.length} subordonnants</div>
         </div>
         <button onClick={()=>{setRole(null);setAdminStep(false);setCode("");}} style={{background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.3)",color:"white",padding:"7px 14px",borderRadius:8,cursor:"pointer",fontWeight:600,fontSize:13}}>Déconnexion</button>
       </div>
