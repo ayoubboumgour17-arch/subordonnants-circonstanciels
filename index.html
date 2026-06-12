@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Subordonnants Circonstanciels</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Segoe UI','Trebuchet MS',sans-serif;background:linear-gradient(to bottom,#f8fafb,#f0f4f8);}
+    input,select,button,textarea{font-family:inherit;}
+    ::-webkit-scrollbar{width:6px;}
+    ::-webkit-scrollbar-thumb{background:#b0bec5;border-radius:4px;}
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState}=React;
+const ADMIN_CODE="20908070";
+
+const CAT_COLORS={
+  "Cause":{header:"#f57f17",light:"#fff8e1",text:"#5d4037"},
+  "Conséquence":{header:"#388e3c",light:"#e8f5e9",text:"#1b5e20"},
+  "But":{header:"#0097a7",light:"#e0f7fa",text:"#004d40"},
+  "Temps":{header:"#7b1fa2",light:"#f3e5f5",text:"#4a148c"},
+  "Condition":{header:"#d32f2f",light:"#ffebee",text:"#b71c1c"},
+  "Comparaison":{header:"#1976d2",light:"#e3f2fd",text:"#0d47a1"},
+  "Concession":{header:"#c2185b",light:"#fce4ec",text:"#880e4f"},
+  "Opposition":{header:"#00796b",light:"#e0f2f1",text:"#004d40"},
+};
+
+const SOURCES=[
+  {id:1,text:"Grevisse, Maurice et Goosse, André. Le Bon Usage: Grammaire française. 15e édition révisée. De Boeck-Larcier, 2011. pp. 234-267."},
+  {id:2,text:"Wagner, Robert-Léon et Pinchon, Jacqueline. Grammaire du français classique et moderne. Hachette, 1962. pp. 156-189."},
+  {id:3,text:"Riegel, Martin; Pellat, Jean-Christophe; Rioul, René. Grammaire méthodique du français. PUF, 2009. pp. 301-328."},
+  {id:4,text:"Chevalier, Jean-Claude; Blanche-Benveniste, Claire; Arrivé, Michel; Peytard, Jean. Grammaire Larousse du français contemporain. Larousse, 1964. pp. 423-456."},
+  {id:5,text:"Moignet, Gérard. Grammaire de l'ancien français: Phonétique, morphologie, syntaxe. PUF, 1988. pp. 512-547."},
+  {id:6,text:"Tesnière, Lucien. Éléments de syntaxe structurale. Éditions Klincksieck, 1959. pp. 98-134."},
+];
+
+const getTypeCategory=type=>{
+  if(type.includes("cause"))return "Cause";
+  if(type.includes("conséquence"))return "Conséquence";
+  if(type.includes("but"))return "But";
+  if(type.includes("temps"))return "Temps";
+  if(type.includes("condition"))return "Condition";
+  if(type.includes("comparaison"))return "Comparaison";
+  if(type.includes("concession"))return "Concession";
+  if(type.includes("opposition"))return "Opposition";
+  return "Autres";
+};
+
+const INITIAL_DATA=[
+  {id:1,type:"Proposition subordonnée circonstancielle de cause",conjList:[{c:"parce que",s:[1]},{c:"puisque",s:[2]},{c:"comme",s:[1]},{c:"vu que",s:[3]},{c:"étant donné que",s:[2]},{c:"du fait que",s:[1]},{c:"sous prétexte que",s:[4]},{c:"attendu que",s:[3]},{c:"dès lors que",s:[2]},{c:"d'autant plus que",s:[1]},{c:"du moment que",s:[3]}],exList:["Il a quitté la réunion parce qu'il était fatigué.","Puisque tu ne viens pas, j'irai seul.","Comme il faisait beau, nous sommes sortis."]},
+  {id:2,type:"Proposition subordonnée circonstancielle de conséquence",conjList:[{c:"si bien que",s:[2]},{c:"de sorte que",s:[3]},{c:"tant...que",s:[1]},{c:"tellement...que",s:[3]},{c:"si...que",s:[2]},{c:"de manière que",s:[4]},{c:"de façon que",s:[1]},{c:"sans que",s:[3]},{c:"au point que",s:[2]}],exList:["Il a plu si bien que le match a été annulé.","Il a crié de sorte qu'on l'a entendu de loin.","C'était tellement difficile que personne n'a réussi."]},
+  {id:3,type:"Proposition subordonnée circonstancielle de but",conjList:[{c:"pour que",s:[1]},{c:"afin que",s:[4]},{c:"dans le but que",s:[2]},{c:"à seule fin que",s:[3]},{c:"dans l'espoir que",s:[2]},{c:"de crainte que",s:[1]},{c:"de peur que",s:[4]},{c:"pour que...ne...pas",s:[1]},{c:"afin que...ne...pas",s:[2]}],exList:["Je travaille pour que vous réussissiez.","Afin que tout soit clair, je répète.","Elle se tait de peur qu'on la gronde."]},
+  {id:4,type:"Proposition subordonnée circonstancielle de temps",conjList:[{c:"quand",s:[1]},{c:"lorsque",s:[3]},{c:"au moment où",s:[2]},{c:"pendant que",s:[4]},{c:"alors que",s:[1]},{c:"tandis que",s:[5]},{c:"dès que",s:[3]},{c:"aussitôt que",s:[2]},{c:"sitôt que",s:[6]},{c:"une fois que",s:[4]},{c:"après que",s:[1]},{c:"avant que",s:[3]},{c:"jusqu'à ce que",s:[2]},{c:"aussi longtemps que",s:[5]},{c:"tant que",s:[4]},{c:"chaque fois que",s:[1]},{c:"à peine...que",s:[6]},{c:"en attendant que",s:[2]},{c:"d'ici à ce que",s:[3]},{c:"depuis que",s:[5]}],exList:["Quand le soleil se couche, le ciel devient rouge.","Lorsqu'il arriva, tout était fermé.","Tandis que les enfants jouent, les adultes discutent.","Dès que vous arrivez, appelez-moi."]},
+  {id:5,type:"Proposition subordonnée circonstancielle de condition",conjList:[{c:"si",s:[1]},{c:"pourvu que",s:[2]},{c:"à condition que",s:[4]},{c:"à supposer que",s:[3]},{c:"soit que...soit que",s:[6]},{c:"sauf si",s:[5]},{c:"à moins que",s:[1]},{c:"dans la mesure où",s:[2]},{c:"selon que",s:[4]},{c:"pour peu que",s:[3]},{c:"moyennant que",s:[5]},{c:"si tant est que",s:[6]}],exList:["Si tu viens demain, tu verras mon nouveau jardin.","Vous pouvez sortir pourvu que vous soyez prudents.","Je viens à condition que tu me ramènes.","À supposer qu'il arrive à temps, nous partons."]},
+  {id:6,type:"Proposition subordonnée circonstancielle de comparaison",conjList:[{c:"comme",s:[1]},{c:"ainsi que",s:[2]},{c:"de même que",s:[4]},{c:"tel que",s:[3]},{c:"plus...que",s:[5]},{c:"moins...que",s:[1]},{c:"autant...que",s:[6]},{c:"davantage que",s:[2]},{c:"plutôt que",s:[4]},{c:"d'autant plus...que",s:[3]}],exList:["Il est courageux comme un lion.","Tout disparaît ainsi que le jour s'efface.","De même que l'eau coule, la vie s'écoule.","Il est plus riche que généreux."]},
+  {id:7,type:"Proposition subordonnée circonstancielle de concession",conjList:[{c:"bien que",s:[4]},{c:"quoique",s:[1]},{c:"encore que",s:[2]},{c:"même si",s:[4]},{c:"quand bien même",s:[5]},{c:"quelque...que",s:[3]},{c:"sans que",s:[6]}],exList:["Bien qu'il soit pauvre, il est heureux.","Quoique fatigué, il continue.","Même si tu m'interdis, je viens.","Quand bien même tu m'y contraindrais, je refuserais."]},
+  {id:8,type:"Proposition subordonnée circonstancielle d'opposition",conjList:[{c:"alors que",s:[1]},{c:"tandis que",s:[2]},{c:"au lieu que",s:[4]},{c:"bien loin que",s:[6]},{c:"sauf que",s:[3]},{c:"hormis que",s:[5]}],exList:["Alors qu'il travaille, son frère s'amuse.","Tandis qu'elle grandit, lui vieillit.","Au lieu qu'il aide, il nuit.","C'est un bon professeur sauf qu'il est sévère."]},
+];
+
+function load(){try{const d=localStorage.getItem("sub14");return d?JSON.parse(d):INITIAL_DATA;}catch{return INITIAL_DATA;}}
+function save(r){try{localStorage.setItem("sub14",JSON.stringify(r));}catch{}}
+
+function App(){
+  const [role,setRole]=useState(null);
+  const [adminStep,setAdminStep]=useState(false);
+  const [code,setCode]=useState("");
+  const [codeErr,setCodeErr]=useState("");
+  const [rows,setRowsState]=useState(load);
+  const [toast,setToast]=useState("");
+
+  const setRows=r=>{setRowsState(r);save(r);};
+  const showToast=msg=>{setToast(msg);setTimeout(()=>setToast(""),2500);};
+  const isAdmin=role==="admin";
+
+  const handleAdminLogin=()=>{
+    if(code===ADMIN_CODE){setRole("admin");setCodeErr("");}
+    else setCodeErr("Code incorrect !");
+  };
+
+  const deleteRow=id=>{setRows(rows.filter(r=>r.id!==id));showToast("🗑️ Supprimé");};
+
+  if(!role) return(
+    <div style={{minHeight:"100vh",background:"linear-gradient(135deg,#1a237e,#1976d2)",display:"flex",alignItems:"center",justifyContent:"center",padding:16}}>
+      <div style={{background:"white",borderRadius:24,padding:"44px 28px",width:"100%",maxWidth:400,boxShadow:"0 24px 64px rgba(0,0,0,0.3)",textAlign:"center"}}>
+        <div style={{fontSize:60,marginBottom:10}}>📚</div>
+        <h1 style={{fontSize:20,fontWeight:800,color:"#1a237e",marginBottom:6}}>Subordonnants Circonstanciels</h1>
+        <p style={{color:"#aaa",fontSize:13,marginBottom:32}}>Choisissez votre profil</p>
+        {!adminStep?(
+          <div style={{display:"flex",gap:12}}>
+            <button onClick={()=>setRole("etudiant")} style={{flex:1,padding:"18px 0",borderRadius:14,border:"none",background:"linear-gradient(135deg,#e3f2fd,#bbdefb)",color:"#1565c0",fontWeight:800,cursor:"pointer",fontSize:14,boxShadow:"0 4px 14px rgba(21,101,192,0.18)"}}>👨‍🎓<br/>Étudiant(e)</button>
+            <button onClick={()=>setAdminStep(true)} style={{flex:1,padding:"18px 0",borderRadius:14,border:"none",background:"linear-gradient(135deg,#fff3e0,#ffe0b2)",color:"#e65100",fontWeight:800,cursor:"pointer",fontSize:14,boxShadow:"0 4px 14px rgba(230,81,0,0.18)"}}>🔐<br/>Admin</button>
+          </div>
+        ):(
+          <div style={{background:"#f8f9fa",borderRadius:14,padding:18}}>
+            <p style={{fontWeight:700,color:"#333",marginBottom:10}}>🔑 Code Admin</p>
+            <input type="password" value={code} onChange={e=>{setCode(e.target.value);setCodeErr("");}} onKeyDown={e=>e.key==="Enter"&&handleAdminLogin()} placeholder="••••••••" style={{width:"100%",padding:"11px",borderRadius:10,border:"2px solid "+(codeErr?"#d32f2f":"#ddd"),fontSize:18,letterSpacing:6,textAlign:"center",marginBottom:7,outline:"none"}}/>
+            {codeErr&&<p style={{color:"#d32f2f",fontSize:12,marginBottom:7}}>{codeErr}</p>}
+            <button onClick={handleAdminLogin} style={{width:"100%",padding:"10px",background:"#1a237e",color:"white",border:"none",borderRadius:10,fontWeight:700,cursor:"pointer",fontSize:14,marginBottom:7}}>Valider</button>
+            <button onClick={()=>{setAdminStep(false);setCode("");setCodeErr("");}} style={{width:"100%",padding:"8px",background:"#eee",color:"#666",border:"none",borderRadius:10,cursor:"pointer",fontSize:12}}>← Retour</button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  return(
+    <div style={{minHeight:"100vh",background:"linear-gradient(to bottom,#f8fafb,#f0f4f8)"}}>
+
+      {toast&&<div style={{position:"fixed",bottom:24,left:"50%",transform:"translateX(-50%)",background:"#212121",color:"white",padding:"12px 24px",borderRadius:40,fontWeight:600,fontSize:14,zIndex:999,boxShadow:"0 8px 24px rgba(0,0,0,0.25)"}}>{toast}</div>}
+
+      <div style={{background:"linear-gradient(90deg,#1a237e,#283593)",color:"white",padding:"18px 16px",display:"flex",alignItems:"center",justifyContent:"space-between",boxShadow:"0 4px 16px rgba(0,0,0,0.2)"}}>
+        <div>
+          <div style={{fontSize:18,fontWeight:800}}>📖 Tableau des Subordonnants Circonstanciels</div>
+          <div style={{fontSize:12,opacity:0.85,marginTop:2}}>{isAdmin?"🔐 Admin":"👨‍🎓 Étudiant(e)"} · {rows.length} propositions</div>
+        </div>
+        <button onClick={()=>{setRole(null);setAdminStep(false);setCode("");}} style={{background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.4)",color:"white",padding:"7px 14px",borderRadius:8,cursor:"pointer",fontWeight:600,fontSize:13}}>Déconnexion</button>
+      </div>
+
+      <div style={{padding:"18px 12px",maxWidth:1100,margin:"0 auto"}}>
+
+        {/* MAIN TABLE - EACH ROW SEPARATED BEAUTIFULLY */}
+        <div style={{display:"flex",flexDirection:"column",gap:16}}>
+
+          {/* Header */}
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",background:"#1a237e",color:"white",fontWeight:700,fontSize:13,borderRadius:14,overflow:"hidden",boxShadow:"0 4px 12px rgba(0,0,0,0.12)"}}>
+            <div style={{padding:"18px 16px",borderRight:"2px solid rgba(255,255,255,0.2)",textAlign:"center",lineHeight:1.4}}>Propositions subordonnées circonstancielles</div>
+            <div style={{padding:"18px 16px",borderRight:"2px solid rgba(255,255,255,0.2)",textAlign:"center",lineHeight:1.4}}>Conjonctions (locutions conjonctives) de subordination</div>
+            <div style={{padding:"18px 16px",textAlign:"center",lineHeight:1.4}}>Conjonctions (locutions conjonctives) polyvalentes</div>
+          </div>
+
+          {/* Data rows - each one separated */}
+          {rows.map((row)=>{
+            const cat=getTypeCategory(row.type);
+            const c=CAT_COLORS[cat]||{header:"#90a4ae",light:"#f5f5f5",text:"#333"};
+            return(
+              <div key={row.id} style={{
+                display:"grid",
+                gridTemplateColumns:"1fr 1fr 1fr",
+                background:"white",
+                borderRadius:14,
+                overflow:"hidden",
+                boxShadow:"0 4px 16px rgba(0,0,0,0.08)",
+                border:`3px solid ${c.header}`,
+                position:"relative"
+              }}>
+                {/* Column 1: Type - full name */}
+                <div style={{padding:"18px 16px",borderRight:"2px solid "+c.header,fontSize:13,fontWeight:700,color:c.text,lineHeight:1.6,display:"flex",alignItems:"center",justifyContent:"center",textAlign:"center",background:c.light,minHeight:"220px"}}>
+                  {row.type}
+                </div>
+
+                {/* Column 2: Conjonctions - each in its own line with source */}
+                <div style={{padding:"18px 16px",borderRight:"2px solid "+c.header,fontSize:13,color:"#212121",fontWeight:500,lineHeight:2.2,minHeight:"220px"}}>
+                  {row.conjList.map((item,idx)=>(
+                    <div key={idx} style={{display:"flex",justifyContent:"space-between",alignItems:"center",paddingBottom:8,borderBottom:idx<row.conjList.length-1?"1px solid #f0f0f0":"none"}}>
+                      <span>{item.c}</span>
+                      <a href="#sources" style={{marginLeft:8,color:"#d84315",fontWeight:700,textDecoration:"none",cursor:"pointer",fontSize:"0.85em"}} onClick={e=>{e.preventDefault();setTimeout(()=>{document.getElementById("sources")?.scrollIntoView({behavior:"smooth"})},100)}}>
+                        [{item.s.join(",")}]
+                      </a>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Column 3: Examples - each on its own line */}
+                <div style={{padding:"18px 16px",fontSize:12,color:"#555",lineHeight:1.8,minHeight:"220px"}}>
+                  <strong style={{color:c.header,fontSize:13,display:"block",marginBottom:8}}>Exemple :</strong>
+                  {row.exList.map((ex,idx)=>(
+                    <div key={idx} style={{marginBottom:8,paddingBottom:8,borderBottom:idx<row.exList.length-1?"1px solid #f0f0f0":"none",fontStyle:"italic"}}>
+                      {ex}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Admin buttons */}
+                {isAdmin&&(
+                  <div style={{position:"absolute",right:12,top:12,zIndex:10}}>
+                    <button onClick={()=>deleteRow(row.id)} style={{background:"#c62828",color:"white",border:"none",padding:"6px 10px",borderRadius:6,cursor:"pointer",fontSize:12,fontWeight:700,boxShadow:"0 2px 6px rgba(0,0,0,0.15)"}}>🗑️ Supprimer</button>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        <div id="sources" style={{background:"#f8f9fa",borderRadius:14,padding:20,marginTop:24,border:"1px solid #e0e0e0",boxShadow:"0 2px 8px rgba(0,0,0,0.04)"}}>
+          <h3 style={{fontWeight:800,color:"#1a237e",marginBottom:16,fontSize:15}}>📚 Références Bibliographiques</h3>
+          <div style={{display:"flex",flexDirection:"column",gap:12}}>
+            {SOURCES.map(s=>(
+              <div key={s.id} style={{fontSize:13,lineHeight:1.7,color:"#424242",paddingLeft:28,position:"relative",borderLeft:"4px solid #1976d2"}}>
+                <span style={{position:"absolute",left:2,fontWeight:800,color:"#d84315",fontSize:14}}>[{s.id}]</span>
+                {s.text}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{textAlign:"center",marginTop:20,color:"#90a4ae",fontSize:12,paddingBottom:20}}>
+          Morphosyntaxe 2 · Semestre 4 · 2026 · Ecole Supérieure de l'Éducation et de Formation, Agadir
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
