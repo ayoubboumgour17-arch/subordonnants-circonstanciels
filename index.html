@@ -8,7 +8,7 @@
         :root {
             --primary-bg: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             --card-bg: rgba(255, 255, 255, 0.98);
-            --text-color: #1e293b;
+            --text-color: #000000;
             --accent-color: #2563eb;
             --border-color: #000000;
         }
@@ -28,17 +28,17 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            padding: 20px;
+            padding: 10px;
         }
 
         /* Portal Login Screen */
         #portal-container {
             background: var(--card-bg);
-            padding: 40px 30px;
+            padding: 40px 20px;
             border-radius: 24px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             text-align: center;
-            max-width: 420px;
+            max-width: 400px;
             width: 100%;
             margin: auto;
         }
@@ -51,14 +51,14 @@
 
         h1 {
             color: #1e3c72;
-            font-size: 24px;
+            font-size: 22px;
             margin-bottom: 10px;
             font-weight: 700;
         }
 
         p.subtitle {
             color: #64748b;
-            font-size: 14px;
+            font-size: 13px;
             margin-bottom: 30px;
         }
 
@@ -69,7 +69,7 @@
         }
 
         .btn {
-            padding: 14px 28px;
+            padding: 12px 24px;
             border: none;
             border-radius: 12px;
             font-weight: bold;
@@ -78,13 +78,12 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .btn-student {
             background-color: #e0f2fe;
             color: #0369a1;
-            box-shadow: 0 4px 6px rgba(3, 105, 161, 0.1);
         }
 
         .btn-student:hover { background-color: #bae6fd; transform: translateY(-2px); }
@@ -92,21 +91,21 @@
         .btn-admin {
             background-color: #fef3c7;
             color: #b45309;
-            box-shadow: 0 4px 6px rgba(180, 83, 9, 0.1);
         }
 
         .btn-admin:hover { background-color: #fde68a; transform: translateY(-2px); }
 
-        /* Main Dashboard & Table Style */
+        /* Main Container Optimized for Github Pages Mobile Views */
         #dashboard-container {
             display: none;
             width: 100%;
-            max-width: 1200px;
+            max-width: 100%;
             background: var(--card-bg);
             border-radius: 16px;
-            padding: 30px;
+            padding: 15px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            margin-top: 20px;
+            margin-top: 10px;
+            overflow-x: hidden; /* Prevent container break */
         }
 
         .nav-header {
@@ -116,18 +115,24 @@
             border-bottom: 2px solid #cbd5e1;
             padding-bottom: 15px;
             margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .nav-header h2 {
+            font-size: 18px;
+            color: #1e3c72;
         }
 
         .admin-controls {
             display: none;
             background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            padding: 20px;
+            border: 2px solid var(--border-color);
+            padding: 15px;
             border-radius: 10px;
             margin-bottom: 25px;
             gap: 12px;
-            flex-wrap: wrap;
-            align-items: center;
+            flex-direction: column;
+            align-items: stretch;
         }
 
         .admin-controls input, .admin-controls select {
@@ -135,14 +140,25 @@
             border: 1px solid #cbd5e1;
             border-radius: 6px;
             font-size: 14px;
+            width: 100%;
         }
 
-        /* Table Design */
+        /* Scrollable wrapper to prevent layout distortion on tiny screens */
+        .table-responsive-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Strict Grid and Borders matching Image 1000059200.jpg */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 30px;
             background: #ffffff;
+            table-layout: fixed; /* Lock cell dimensions proportionally */
+            min-width: 600px; /* Ensures text remains readable without squeezing */
         }
 
         th {
@@ -150,25 +166,26 @@
             color: #000000;
             font-weight: 700;
             text-align: center;
-            padding: 15px;
+            padding: 12px 10px;
             border: 2px solid var(--border-color);
-            font-size: 16px;
+            font-size: 14px;
             line-height: 1.3;
         }
 
         td {
-            padding: 15px;
+            padding: 12px 10px;
             border: 2px solid var(--border-color);
             vertical-align: top;
-            font-size: 15px;
-            line-height: 1.6;
-            color: #000000;
+            font-size: 13.5px;
+            line-height: 1.5;
+            word-wrap: break-word; /* Prevents overflow */
         }
 
         .row-span-header {
-            font-weight: 500;
-            vertical-align: top;
+            font-weight: normal;
+            vertical-align: middle;
             text-align: left;
+            background-color: #ffffff;
         }
 
         .conj-main {
@@ -178,69 +195,69 @@
 
         .sub-type {
             font-weight: normal;
-        }
-
-        .sub-type strong {
-            font-weight: bold;
+            margin-bottom: 4px;
         }
 
         .example-block {
-            margin-top: 4px;
+            margin-bottom: 2px;
         }
 
         .footnote-ref {
             vertical-align: super;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: bold;
             color: var(--accent-color);
             text-decoration: none;
             margin-left: 2px;
-            padding: 0 2px;
         }
 
-        .footnote-ref:hover { text-decoration: underline; }
-
-        .inner-cell-divider {
-            border: 0;
-            border-top: 2px solid var(--border-color);
-            margin: 12px -15px;
+        /* Distinct horizontal cell dividers inside column 3 */
+        .inner-sub-cell {
+            padding: 10px 0;
+        }
+        .inner-sub-cell:not(:last-child) {
+            border-bottom: 2px solid var(--border-color);
+        }
+        .inner-sub-cell:first-child {
+            padding-top: 0;
+        }
+        .inner-sub-cell:last-child {
+            padding-bottom: 0;
         }
 
         .delete-btn {
             background: #ef4444;
             color: white;
             border: none;
-            padding: 6px 12px;
+            padding: 4px 8px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 12px;
-            margin-top: 10px;
+            font-size: 11px;
+            margin-top: 8px;
             display: none;
-            float: right;
         }
 
-        /* References Footer Zone */
+        /* References Section */
         .references-section {
             border-top: 2px dashed #cbd5e1;
-            padding-top: 20px;
-            margin-top: 35px;
+            padding-top: 15px;
+            margin-top: 25px;
         }
 
         .references-section h3 {
-            font-size: 18px;
-            margin-bottom: 12px;
+            font-size: 16px;
+            margin-bottom: 10px;
             color: #1e3c72;
         }
 
         .references-section ol {
-            padding-left: 22px;
-            font-size: 14px;
+            padding-left: 20px;
+            font-size: 13px;
             color: #334155;
         }
 
         .references-section li {
-            margin-bottom: 8px;
-            line-height: 1.5;
+            margin-bottom: 6px;
         }
 
         /* Academic Footer */
@@ -248,24 +265,19 @@
             width: 100%;
             text-align: center;
             color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 500;
-            padding: 25px 0 15px 0;
+            padding: 20px 0 10px 0;
             margin-top: auto;
             border-top: 1px solid rgba(255, 255, 255, 0.2);
-            letter-spacing: 0.5px;
+            line-height: 1.4;
         }
 
         .btn-back {
             background: #475569;
             color: white;
-            padding: 8px 16px;
-            font-size: 13px;
-        }
-
-        @media (max-width: 900px) {
-            #dashboard-container { padding: 15px; }
-            th, td { padding: 10px; font-size: 13px; }
+            padding: 6px 12px;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -288,55 +300,90 @@
     <div id="dashboard-container">
         <div class="nav-header">
             <h2 id="view-title">Espace Étudiant - Tableau Morphosyntaxique</h2>
-            <button class="btn btn-back" onclick="logout()">Retour au profil</button>
+            <button class="btn btn-back" onclick="logout()">Retour</button>
         </div>
 
         <div id="admin-panel" class="admin-controls">
-            <strong>Nouvelle entrée (Cause) :</strong>
-            <input type="text" id="ins-conj-ex" placeholder="Ex: Comme il a bien travaillé..." style="width: 250px;">
-            <input type="text" id="ins-poly1-ex" placeholder="Exemple de Temps" style="width: 220px;">
-            <input type="number" id="ins-ref1" placeholder="Réf N°" style="width: 70px;">
-            <input type="text" id="ins-poly2-ex" placeholder="Exemple de Comparaison" style="width: 220px;">
-            <input type="number" id="ins-ref2" placeholder="Réf N°" style="width: 70px;">
-            <button class="btn btn-admin" onclick="addNewRowRow()" style="padding: 8px 16px; font-size:13px;">Ajouter au tableau</button>
+            <strong>Ajouter une proposition circonstancielle :</strong>
+            <input type="text" id="ins-main-type" placeholder="Ex: Proposition subordonnée de but">
+            <input type="text" id="ins-conj-ex" placeholder="Ex: Pour que / Exemple structurel complet">
+            <input type="text" id="ins-poly-title1" placeholder="Type polyvalent 1 (Optionnel)">
+            <input type="text" id="ins-poly-ex1" placeholder="Exemple polyvalent 1">
+            <input type="number" id="ins-ref" placeholder="N° Référence Source (Ex: 4)">
+            <button class="btn btn-admin" onclick="addNewRowRow()" style="align-self: center;">Insérer au tableau</button>
         </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Propositions subordonnées <br>circonstancielles</th>
-                    <th>Conjonctions (locutions conjonctives) de subordination</th>
-                    <th>Conjonctions (locutions conjonctives) polyvalentes</th>
-                </tr>
-            </thead>
-            <tbody id="table-body">
-                <tr>
-                    <td class="row-span-header" id="main-cause-td" rowspan="1">
-                        Proposition subordonnée circonstancielle de <strong>cause</strong>
-                    </td>
-                    <td>
-                        <span class="conj-main">Comme</span> il a bien travaillé, il a obtenu une bonne note <a href="#ref1" class="footnote-ref">[1]</a>
-                    </td>
-                    <td>
-                        <div class="sub-type">Proposition subordonnée circonstancielle de <strong>temps</strong> :</div>
-                        <div class="example-block">Exemple : <span class="editable-text">Comme il sortait, il l'aperçut.</span> <a href="#ref2" class="footnote-ref">[2]</a></div>
-                        
-                        <div class="inner-cell-divider"></div>
-                        
-                        <div class="sub-type">Proposition subordonnée de <strong>comparaison</strong> :</div>
-                        <div class="example-block">Exemple : <span class="editable-text">Il est blanc comme la neige.</span> <a href="#ref3" class="footnote-ref">[3]</a></div>
-                        <button class="delete-btn" onclick="deleteRowElement(this)">Supprimer</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 30%;">Propositions subordonnées circonstancielles</th>
+                        <th style="width: 35%;">Conjonctions (locutions conjonctives) de subordination</th>
+                        <th style="width: 35%;">Conjonctions (locutions conjonctives) polyvalentes</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <tr>
+                        <td class="row-span-header">
+                            Proposition subordonnée circonstancielle de <strong>cause</strong>
+                        </td>
+                        <td>
+                            <span class="conj-main">Comme</span> il a bien travaillé, il a obtenu une bonne note <a href="#ref1" class="footnote-ref">[1]</a>
+                        </td>
+                        <td>
+                            <div class="inner-sub-cell">
+                                <div class="sub-type">Proposition subordonnée circonstancielle de <strong>temps</strong> :</div>
+                                <div class="example-block">Exemple : Comme il sortait, il l'aperçut <a href="#ref2" class="footnote-ref">[2]</a></div>
+                            </div>
+                            <div class="inner-sub-cell">
+                                <div class="sub-type">Proposition subordonnée de <strong>comparaison</strong> :</div>
+                                <div class="example-block">Exemple : Il est blanc comme la neige <a href="#ref3" class="footnote-ref">[3]</a></div>
+                            </div>
+                            <button class="delete-btn" onclick="deleteRowElement(this)">Supprimer</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="row-span-header">
+                            Proposition subordonnée circonstancielle de <strong>condition</strong>
+                        </td>
+                        <td>
+                            <span class="conj-main">Si</span> tu viens demain, nous irons au complexe universitaire <a href="#ref2" class="footnote-ref">[2]</a>
+                        </td>
+                        <td>
+                            <div class="inner-sub-cell">
+                                <div class="sub-type">Proposition subordonnée de <strong>concession</strong> :</div>
+                                <div class="example-block">Exemple : S'il est riche, il n'est guère généreux <a href="#ref1" class="footnote-ref">[1]</a></div>
+                            </div>
+                            <button class="delete-btn" onclick="deleteRowElement(this)">Supprimer</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="row-span-header">
+                            Proposition subordonnée circonstancielle de <strong>but</strong>
+                        </td>
+                        <td>
+                            <span class="conj-main">De sorte que</span> les étudiants comprennent, le professeur schématise <a href="#ref3" class="footnote-ref">[3]</a>
+                        </td>
+                        <td>
+                            <div class="inner-sub-cell">
+                                <div class="sub-type">Proposition subordonnée de <strong>conséquence</strong> :</div>
+                                <div class="example-block">Exemple : Le vent a soufflé de sorte que les arbres sont tombés <a href="#ref2" class="footnote-ref">[2]</a></div>
+                            </div>
+                            <button class="delete-btn" onclick="deleteRowElement(this)">Supprimer</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <div class="references-section">
             <h3>Sources & Références Bibliographiques</h3>
             <ol id="references-list">
-                <li id="ref1">Grevisse, M., & Goosse, A. (2008). *Le Bon Usage* (14e éd.). De Boeck Supérieur. **Page 1422** (Valeur causale de "comme").</li>
-                <li id="ref2">Riegel, M., Pellat, J. C., & Rioul, R. (2018). *Grammaire méthodique du français* (7e éd.). PUF. **Page 812** (Valeur temporelle de simultanéité).</li>
-                <li id="ref3">Denis, N., & Sancier-Chateau, A. (1994). *Grammaire du français*. Le Livre de Poche. **Page 411** (Comparatif d'égalité).</li>
+                <li id="ref1">Grevisse, M., & Goosse, A. (2008). <i>Le Bon Usage</i> (14e éd.). De Boeck Supérieur. <b>Page 1422-1425</b>.</li>
+                <li id="ref2">Riegel, M., Pellat, J. C., & Rioul, R. (2018). <i>Grammaire méthodique du français</i> (7e éd.). PUF. <b>Page 812-815</b>.</li>
+                <li id="ref3">Denis, N., & Sancier-Chateau, A. (1994). <i>Grammaire du français</i>. Le Livre de Poche. <b>Page 411-414</b>.</li>
             </ol>
         </div>
     </div>
@@ -346,8 +393,7 @@
     </footer>
 
     <script>
-        // Obfuscated Admin Token: "ESEF2026"
-        const tokenVal = "RVNFRjIwMjY=";
+        const tokenVal = "RVNFRjIwMjY="; // ESEF2026 encoded in Base64
         let activeMode = "student";
 
         function enterApp(mode) {
@@ -356,7 +402,7 @@
                 if (accessCode && btoa(accessCode) === tokenVal) {
                     activeMode = "admin";
                     document.getElementById('admin-panel').style.display = 'flex';
-                    document.getElementById('view-title').innerText = "Espace Admin - Gestion Universitaire";
+                    document.getElementById('view-title').innerText = "Espace Admin - Configuration Morphosyntaxique";
                     toggleDeleteButtons(true);
                 } else {
                     alert("Code d'accès incorrect !");
@@ -383,58 +429,45 @@
         }
 
         function addNewRowRow() {
+            const mainType = document.getElementById('ins-main-type').value;
             const conjEx = document.getElementById('ins-conj-ex').value;
-            const poly1 = document.getElementById('ins-poly1-ex').value;
-            const ref1 = document.getElementById('ins-ref1').value || "1";
-            const poly2 = document.getElementById('ins-poly2-ex').value;
-            const ref2 = document.getElementById('ins-ref2').value || "1";
+            const polyTitle = document.getElementById('ins-poly-title1').value;
+            const polyEx = document.getElementById('ins-poly-ex1').value;
+            const refNum = document.getElementById('ins-ref').value || "1";
 
-            if (!conjEx || !poly1) {
-                alert("Veuillez remplir au moins la conjonction principale et le premier exemple polyvalent.");
+            if (!mainType || !conjEx) {
+                alert("Veuillez remplir au moins la proposition principale et la conjonction.");
                 return;
             }
 
             const tbody = document.getElementById('table-body');
-            const rowCount = tbody.querySelectorAll('tr').length;
-            
-            const mainCauseTd = document.getElementById('main-cause-td');
-            if (mainCauseTd) {
-                mainCauseTd.rowSpan = rowCount + 1;
-            }
-
             const tr = document.createElement('tr');
+            
             tr.innerHTML = `
+                <td class="row-span-header">Proposition subordonnée circonstancielle de <strong>${mainType}</strong></td>
                 <td>${conjEx}</td>
                 <td>
-                    <div class="sub-type">Proposition subordonnée de <strong>temps</strong> :</div>
-                    <div class="example-block">Exemple : <span>${poly1}</span> <a href="#ref${ref1}" class="footnote-ref">[${ref1}]</a></div>
-                    ${poly2 ? `
-                    <div class="inner-cell-divider"></div>
-                    <div class="sub-type">Proposition subordonnée de <strong>comparaison</strong> :</div>
-                    <div class="example-block">Exemple : <span>${poly2}</span> <a href="#ref${ref2}" class="footnote-ref">[${ref2}]</a></div>
-                    ` : ''}
+                    ${polyEx ? `
+                    <div class="inner-sub-cell">
+                        <div class="sub-type">Proposition subordonnée de <strong>${polyTitle || 'polyvalence'}</strong> :</div>
+                        <div class="example-block">Exemple : ${polyEx} <a href="#ref${refNum}" class="footnote-ref">[${refNum}]</a></div>
+                    </div>
+                    ` : '---'}
                     <button class="delete-btn" style="display:block;" onclick="deleteRowElement(this)">Supprimer</button>
                 </td>
             `;
             tbody.appendChild(tr);
 
-            // Clean inputs
+            // Reset Input Values
+            document.getElementById('ins-main-type').value = '';
             document.getElementById('ins-conj-ex').value = '';
-            document.getElementById('ins-poly1-ex').value = '';
-            document.getElementById('ins-poly2-ex').value = '';
+            document.getElementById('ins-poly-title1').value = '';
+            document.getElementById('ins-poly-ex1').value = '';
         }
 
         function deleteRowElement(btn) {
-            if (confirm("Voulez-vous supprimer cette ligne ?")) {
-                const row = btn.closest('tr');
-                row.remove();
-                
-                const tbody = document.getElementById('table-body');
-                const rowCount = tbody.querySelectorAll('tr').length;
-                const mainCauseTd = document.getElementById('main-cause-td');
-                if (mainCauseTd) {
-                    mainCauseTd.rowSpan = rowCount;
-                }
+            if (confirm("Voulez-vous supprimer cette ligne circonstancielle ?")) {
+                btn.closest('tr').remove();
             }
         }
     </script>
