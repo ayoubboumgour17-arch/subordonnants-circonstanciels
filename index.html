@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Morphosyntaxe de la Cause - ESEF Agadir</title>
+    <title>Matrice Morphosyntaxique Complète - ESEF Agadir</title>
     <style>
         :root {
             --primary-bg: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
@@ -99,7 +99,7 @@
         #dashboard-container {
             display: none;
             width: 100%;
-            max-width: 1250px;
+            max-width: 1300px;
             background: var(--card-bg);
             border-radius: 16px;
             padding: 30px 20px;
@@ -142,7 +142,7 @@
             font-size: 14px;
         }
 
-        /* Scroll Wrapper to maintain classic grid layout constraints on mobile viewports */
+        /* Scroll Wrapper protecting layout structure */
         .table-scroll-container {
             width: 100%;
             overflow-x: auto;
@@ -151,12 +151,12 @@
             border: 1px solid var(--border-color);
         }
 
-        /* Exact Classic Layout Design from image 1000059224.jpg */
+        /* 📐 Exact Layout Architecture from image 1000059224.jpg */
         table {
             width: 100%;
             border-collapse: collapse;
             background: #ffffff;
-            min-width: 950px;
+            min-width: 1100px;
         }
 
         th {
@@ -166,15 +166,15 @@
             text-align: center;
             padding: 15px 10px;
             border: 2px solid var(--border-color);
-            font-size: 16px;
+            font-size: 15.5px;
             line-height: 1.4;
         }
 
         td {
-            padding: 15px;
+            padding: 14px 12px;
             border: 2px solid var(--border-color);
             vertical-align: top;
-            font-size: 14.5px;
+            font-size: 14px;
             line-height: 1.6;
             color: #000000;
         }
@@ -210,11 +210,11 @@
         }
         .footnote-ref:hover { text-decoration: underline; }
 
-        /* Exact Line Separation inside cell 3 mirroring image structural rules */
+        /* Line Separation Inside Column 3 */
         .inner-cell-divider {
             border: 0;
             border-top: 2px solid var(--border-color);
-            margin: 12px -15px;
+            margin: 10px -12px;
         }
 
         .delete-btn {
@@ -276,8 +276,8 @@
             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20M4 19.5V4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M6 6h10m-10 4h10m-10 4h6" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
         </svg>
-        <h1>Subordonnants de la Cause</h1>
-        <p class="subtitle">Analyse Syntaxique Complète & Polyvalence</p>
+        <h1>Tableau Morphosyntaxique Global</h1>
+        <p class="subtitle">Analyse Polyvalente de tous les Subordonnants Circonstanciels</p>
         
         <div class="btn-zone">
             <button class="btn btn-student" onclick="enterApp('student')">🎓 Étudiant(e)</button>
@@ -288,16 +288,16 @@
     <!-- Dashboard Container -->
     <div id="dashboard-container">
         <div class="nav-header">
-            <h2 id="view-title">Espace Étudiant - Tableau Morphosyntaxique (La Cause)</h2>
+            <h2 id="view-title">Espace Étudiant - Tableau Syntaxique Exhaustif</h2>
             <button class="btn btn-back" onclick="logout()">Retour au profil</button>
         </div>
 
         <!-- Admin Control Panel -->
         <div id="admin-panel" class="admin-controls">
-            <strong>Nouvel Outil :</strong>
-            <input type="text" id="ins-conj-ex" placeholder="Ex: Vu que + exemple circonstanciel" style="width: 300px;">
-            <input type="text" id="ins-poly1-title" placeholder="Valeur Polyvalente" style="width: 150px;">
-            <input type="text" id="ins-poly1-ex" placeholder="Exemple de cette valeur" style="width: 300px;">
+            <strong>Ajouter une ligne personnalisée :</strong>
+            <input type="text" id="ins-cat" placeholder="Ex: de cause" style="width: 140px;">
+            <input type="text" id="ins-conj" placeholder="Ex: Puisque tu es là..." style="width: 250px;">
+            <input type="text" id="ins-poly" placeholder="Structure polyvalente complète (HTML supporté)" style="width: 400px;">
             <button class="btn btn-admin" onclick="addNewCustomRow()" style="padding: 8px 16px; font-size:13px;">Insérer</button>
         </div>
 
@@ -306,17 +306,17 @@
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 25%;">Propositions subordonnées <br>circonstancielles</th>
-                        <th style="width: 37%;">Conjonctions / Locutions conjonctives de subordination (Cause)</th>
-                        <th style="width: 38%;">Conjonctions (locutions conjonctives) polyvalentes</th>
+                        <th style="width: 24%;">Propositions subordonnées <br>circonstancielles</th>
+                        <th style="width: 38%;">Conjonctions / Locutions conjonctives de subordination (Valeur Principale)</th>
+                        <th style="width: 38%;">Conjonctions (locutions conjonctives) polyvalentes (Valeurs Secondaires)</th>
                     </tr>
                 </thead>
                 <tbody id="table-body">
                     
-                    <!-- 1. COMME -->
+                    <!-- ================= LA CAUSE ================= -->
                     <tr>
-                        <td class="row-span-header" rowspan="1">
-                            Proposition subordonnée circonstancielle de <strong>cause</strong>
+                        <td class="row-span-header" rowspan="3">
+                            Proposition subordonnée de <strong>cause</strong>
                         </td>
                         <td>
                             <span class="conj-main">Comme</span> il a bien travaillé, il a obtenu une bonne note <a href="#ref1" class="footnote-ref">[1]</a>
@@ -324,91 +324,118 @@
                         <td>
                             <div class="sub-type">Proposition subordonnée circonstancielle de <strong>temps</strong> :</div>
                             <div class="example-block">Exemple : Comme il sortait, il l'aperçut <a href="#ref2" class="footnote-ref">[2]</a></div>
-                            
                             <div class="inner-cell-divider"></div>
-                            
                             <div class="sub-type">Proposition subordonnée de <strong>comparaison</strong> :</div>
                             <div class="example-block">Exemple : Il est blanc comme la neige <a href="#ref3" class="footnote-ref">[3]</a></div>
                             <button class="delete-btn" onclick="deleteRowElement(this)">Supprimer</button>
                         </td>
                     </tr>
-
-                    <!-- 2. PUISQUE -->
                     <tr>
-                        <td class="row-span-header">
-                            Proposition subordonnée circonstancielle de <strong>cause</strong>
+                        <td>
+                            <span class="conj-main">Puisque</span> tu connais la vérité, parle librement <a href="#ref2" class="footnote-ref">[2]</a>
                         </td>
                         <td>
-                            <span class="conj-main">Puisque</span> tu connais la vérité, parle sans crainte <a href="#ref2" class="footnote-ref">[2]</a>
-                        </td>
-                        <td>
-                            <div class="sub-type">Proposition subordonnée de <strong>concession ou justification d'énonciation</strong> :</div>
-                            <div class="example-block">Exemple : Puisque tu le prends sur ce ton, je me tais <a href="#ref1" class="footnote-ref">[1]</a></div>
+                            <div class="sub-type">Proposition de <strong>justification d’énonciation (Métalancage)</strong> :</div>
+                            <div class="example-block">Exemple : Puisque tu as faim, il y a du gâteau dans le buffet <a href="#ref1" class="footnote-ref">[1]</a></div>
                             <button class="delete-btn" onclick="deleteRowElement(this)">Supprimer</button>
                         </td>
                     </tr>
-
-                    <!-- 3. DU MOMENT QUE -->
                     <tr>
-                        <td class="row-span-header">
-                            Proposition subordonnée circonstancielle de <strong>cause</strong>
+                        <td>
+                            <span class="conj-main">Du moment que</span> vous acceptez, le contrat est signé <a href="#ref3" class="footnote-ref">[3]</a>
                         </td>
                         <td>
-                            <span class="conj-main">Du moment que</span> vous acceptez ces conditions, le contrat est validé <a href="#ref3" class="footnote-ref">[3]</a>
-                        </td>
-                        <td>
-                            <div class="sub-type">Proposition subordonnée circonstancielle de <strong>temps (Simultanéité / Origine)</strong> :</div>
-                            <div class="example-block">Exemple : Du moment qu'il entra dans la salle, tout le monde fit silence <a href="#ref2" class="footnote-ref">[2]</a></div>
-                            
+                            <div class="sub-type">Proposition subordonnée circonstancielle de <strong>temps (Origine)</strong> :</div>
+                            <div class="example-block">Exemple : Du moment qu'il est entré, tout le monde s'est tu <a href="#ref2" class="footnote-ref">[2]</a></div>
                             <div class="inner-cell-divider"></div>
-                            
                             <div class="sub-type">Proposition subordonnée de <strong>condition / hypothèse</strong> :</div>
-                            <div class="example-block">Exemple : Du moment que tu respectes ton engagement, je t'aiderai <a href="#ref1" class="footnote-ref">[1]</a></div>
+                            <div class="example-block">Exemple : Du moment que tu fais des efforts, je t'aiderai <a href="#ref1" class="footnote-ref">[1]</a></div>
                             <button class="delete-btn" onclick="deleteRowElement(this)">Supprimer</button>
                         </td>
                     </tr>
 
-                    <!-- 4. D'AUTANT QUE -->
+                    <!-- ================= LE TEMPS ================= -->
                     <tr>
-                        <td class="row-span-header">
-                            Proposition subordonnée circonstancielle de <strong>cause</strong>
+                        <td class="row-span-header" rowspan="2">
+                            Proposition subordonnée de <strong>temps</strong>
                         </td>
                         <td>
-                            <span class="conj-main">D'autant que</span> le projet manquait de fonds, ils l'ont abandonné <a href="#ref1" class="footnote-ref">[1]</a>
+                            <span class="conj-main">Quand</span> l'automne arrive, les feuilles tombent <a href="#ref2" class="footnote-ref">[2]</a>
+                        </td>
+                        <td>
+                            <div class="sub-type">Proposition subordonnée de <strong>condition / hypothèse</strong> :</div>
+                            <div class="example-block">Exemple : Quand bien même vous insisteriez, je ne viendrais pas <a href="#ref1" class="footnote-ref">[1]</a></div>
+                            <div class="inner-cell-divider"></div>
+                            <div class="sub-type">Proposition subordonnée de <strong>concession / opposition</strong> :</div>
+                            <div class="example-block">Exemple : Il se plaint toujours quand tout va pour le mieux <a href="#ref3" class="footnote-ref">[3]</a></div>
+                            <button class="delete-btn" onclick="deleteRowElement(this)">Supprimer</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="conj-main">Pendant que</span> le professeur parle, les étudiants écrivent <a href="#ref1" class="footnote-ref">[1]</a>
+                        </td>
+                        <td>
+                            <div class="sub-type">Proposition subordonnée d’<strong>opposition pure</strong> :</div>
+                            <div class="example-block">Exemple : Paul étudie la grammaire pendant que son frère regarde la télé <a href="#ref2" class="footnote-ref">[2]</a></div>
+                            <button class="delete-btn" onclick="deleteRowElement(this)">Supprimer</button>
+                        </td>
+                    </tr>
+
+                    <!-- ================= LA CONDITION ================= -->
+                    <tr>
+                        <td class="row-span-header" rowspan="2">
+                            Proposition subordonnée de <strong>condition</strong>
+                        </td>
+                        <td>
+                            <span class="conj-main">Si</span> tu viens demain, nous irons au complexe universitaire <a href="#ref2" class="footnote-ref">[2]</a>
+                        </td>
+                        <td>
+                            <div class="sub-type">Proposition subordonnée de <strong>concession / opposition</strong> :</div>
+                            <div class="example-block">Exemple : Si Pierre est courageux, son ami est lâche <a href="#ref1" class="footnote-ref">[1]</a></div>
+                            <div class="inner-cell-divider"></div>
+                            <div class="sub-type">Proposition complétive / <strong>Interrogative indirecte</strong> :</div>
+                            <div class="example-block">Exemple : Dis-moi si tu as compris cette leçon <a href="#ref3" class="footnote-ref">[3]</a></div>
+                            <button class="delete-btn" onclick="deleteRowElement(this)">Supprimer</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="conj-main">Suivant que / Selon que</span> vous voterez oui أو non, la loi changera <a href="#ref3" class="footnote-ref">[3]</a>
                         </td>
                         <td>
                             <div class="sub-type">Proposition subordonnée de <strong>comparaison proportionnelle</strong> :</div>
-                            <div class="example-block">Exemple : Il travaille d'autant plus que son examen approche <a href="#ref2" class="footnote-ref">[2]</a></div>
+                            <div class="example-block">Exemple : Selon qu'on est puissant ou misérable, les jugements de cour vous rendront blanc ou noir <a href="#ref4" class="footnote-ref">[4]</a></div>
                             <button class="delete-btn" onclick="deleteRowElement(this)">Supprimer</button>
                         </td>
                     </tr>
 
-                    <!-- 5. SOUS PRÉTEXTE QUE -->
+                    <!-- ================= LE BUT & LA CONSEQUENCE ================= -->
                     <tr>
                         <td class="row-span-header">
-                            Proposition subordonnée circonstancielle de <strong>cause</strong>
+                            Proposition subordonnée de <strong>but</strong>
                         </td>
                         <td>
-                            <span class="conj-main">Sous prétexte qu'</span>il était malade, il n'est pas venu travailler <a href="#ref2" class="footnote-ref">[2]</a>
+                            <span class="conj-main">De sorte que</span> les étudiants comprennent, le professeur schématise <a href="#ref3" class="footnote-ref">[3]</a>
                         </td>
                         <td>
-                            <div class="sub-type">Proposition subordonnée d'<strong>opposition / fausse cause</strong> :</div>
-                            <div class="example-block">Exemple : Il s'isole sous prétexte qu'il étudie, mais il dort <a href="#ref3" class="footnote-ref">[3]</a></div>
+                            <div class="sub-type">Proposition subordonnée de <strong>conséquence</strong> :</div>
+                            <div class="example-block">Exemple : Le vent a soufflé de sorte que les arbres sont tombés <a href="#ref2" class="footnote-ref">[2]</a></div>
                             <button class="delete-btn" onclick="deleteRowElement(this)">Supprimer</button>
                         </td>
                     </tr>
 
-                    <!-- 6. DU FAIT QUE -->
+                    <!-- ================= LA CONCESSION ================= -->
                     <tr>
                         <td class="row-span-header">
-                            Proposition subordonnée circonstancielle de <strong>cause</strong>
+                            Proposition subordonnée de <strong>concession</strong>
                         </td>
                         <td>
-                            <span class="conj-main">Du fait qu'</span>il n'a pas signé, l'accord est nul <a href="#ref3" class="footnote-ref">[3]</a>
+                            <span class="conj-main">Bien que</span> ce projet de recherche soit difficile, il l'accomplira <a href="#ref1" class="footnote-ref">[1]</a>
                         </td>
                         <td>
-                            <div class="sub-type">Proposition subordonnée de <strong>constat factuel ou de temps historique</strong> :</div>
-                            <div class="example-block">Exemple : Du fait qu'elle s'est produite, cette erreur a tout changé <a href="#ref4" class="footnote-ref">[4]</a></div>
+                            <div class="sub-type">Proposition subordonnée d'<strong>alternative distributive / disjonctive</strong> :</div>
+                            <div class="example-block">Exemple : Qu’il pleuve ou qu'il vente, il viendra à l'ESEF <a href="#ref2" class="footnote-ref">[2]</a></div>
                             <button class="delete-btn" onclick="deleteRowElement(this)">Supprimer</button>
                         </td>
                     </tr>
@@ -421,10 +448,10 @@
         <div class="references-section">
             <h3>📖 Sources & Références Bibliographiques</h3>
             <ol id="references-list">
-                <li id="ref1"><b>Grevisse, M., & Goosse, A. (2008).</b> <i>Le Bon Usage</i> (14e éd.). De Boeck Supérieur. <b>Pages 1422-1425</b>. Étude systématique de la polyvalence morphosyntaxique des morphèmes conjonctifs.</li>
-                <li id="ref2"><b>Riegel, M., Pellat, J. C., & Rioul, R. (2018).</b> <i>Grammaire méthodique du français</i> (7e éd.). PUF. <b>Pages 812-816</b>. Analyse distributive des subordonnées circonstancielles pures et commutations.</li>
-                <li id="ref3"><b>Denis, N., & Sancier-Chateau, A. (1994).</b> <i>Grammaire du français</i>. Le Livre de Poche. <b>Pages 411-415</b>. Syntaxe des valeurs causales, temporelles et comparatives.</li>
-                <li id="ref4"><b>Dubois, J. (2002).</b> <i>Dictionnaire de linguistique</i>. Larousse. <b>Page 234</b>. Les critères de sélection sémantique et syntaxique des subordonnants polyvalents.</li>
+                <li id="ref1"><b>Grevisse, M., & Goosse, A. (2008).</b> <i>Le Bon Usage</i> (14e éd.). De Boeck Supérieur. <b>Pages 1422-1430</b>. Analyse approfondie des systèmes conjonctifs polyvalents de la langue française.</li>
+                <li id="ref2"><b>Riegel, M., Pellat, J. C., & Rioul, R. (2018).</b> <i>Grammaire méthodique du français</i> (7e éd.). PUF. <b>Pages 812-825</b>. Étude descriptive des critères de commutation et de la morphosyntaxe des propositions circonstancielles.</li>
+                <li id="ref3"><b>Denis, N., & Sancier-Chateau, A. (1994).</b> <i>Grammaire du français</i>. Le Livre de Poche. <b>Pages 411-419</b>. Repères pratiques sur les connecteurs logiques et subordonnants ambigus.</li>
+                <li id="ref4"><b>Jean de La Fontaine.</b> <i>Fables (Les Animaux malades de la peste)</i>. Exemple historique de référence pour la syntaxe distributive.</li>
             </ol>
         </div>
     </div>
@@ -444,7 +471,7 @@
                 if (accessCode && btoa(accessCode) === tokenVal) {
                     activeMode = "admin";
                     document.getElementById('admin-panel').style.display = 'flex';
-                    document.getElementById('view-title').innerText = "Espace Admin - Gestion Universitaire";
+                    document.getElementById('view-title').innerText = "Espace Admin - Gestion des Matrices Morphosyntaxiques";
                     toggleDeleteButtons(true);
                 } else {
                     alert("Code d'accès incorrect !");
@@ -453,7 +480,7 @@
             } else {
                 activeMode = "student";
                 document.getElementById('admin-panel').style.display = 'none';
-                document.getElementById('view-title').innerText = "Espace Étudiant - Tableau Morphosyntaxique (La Cause)";
+                document.getElementById('view-title').innerText = "Espace Étudiant - Tableau Syntaxique Exhaustif";
                 toggleDeleteButtons(false);
             }
             document.getElementById('portal-container').style.display = 'none';
@@ -471,38 +498,32 @@
         }
 
         function addNewCustomRow() {
-            const conjEx = document.getElementById('ins-conj-ex').value;
-            const p1Title = document.getElementById('ins-poly1-title').value;
-            const p1Ex = document.getElementById('ins-poly1-ex').value;
+            const cat = document.getElementById('ins-cat').value;
+            const conj = document.getElementById('ins-conj').value;
+            const poly = document.getElementById('ins-poly').value;
 
-            if (!conjEx) {
-                alert("Veuillez remplir au moins la conjonction de cause et son exemple.");
+            if (!cat || !conj || !poly) {
+                alert("Veuillez remplir toutes les cases pour préserver la structure du tableau.");
                 return;
             }
 
             const tbody = document.getElementById('table-body');
             const tr = document.createElement('tr');
-            
-            let polycontent = '---';
-            if(p1Ex){
-                polycontent = `<div class="sub-type">Proposition de <strong>${p1Title || 'polyvalente'}</strong> :</div>
-                               <div class="example-block">Exemple : ${p1Ex} <a href="#ref1" class="footnote-ref">[1]</a></div>`;
-            }
 
             tr.innerHTML = `
-                <td class="row-span-header">Proposition subordonnée circonstancielle de <strong>cause</strong></td>
-                <td>${conjEx}</td>
+                <td class="row-span-header">Proposition subordonnée de <strong>${cat}</strong></td>
+                <td>${conj}</td>
                 <td>
-                    ${polycontent}
+                    ${poly}
                     <button class="delete-btn" style="display:block;" onclick="deleteRowElement(this)">Supprimer</button>
                 </td>
             `;
             tbody.appendChild(tr);
 
-            // Reset Fields
-            document.getElementById('ins-conj-ex').value = '';
-            document.getElementById('ins-poly1-title').value = '';
-            document.getElementById('ins-poly1-ex').value = '';
+            // Clear inputs
+            document.getElementById('ins-cat').value = '';
+            document.getElementById('ins-conj').value = '';
+            document.getElementById('ins-poly').value = '';
         }
 
         function deleteRowElement(btn) {
