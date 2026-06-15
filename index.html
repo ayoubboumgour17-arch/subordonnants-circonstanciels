@@ -137,7 +137,7 @@
             font-size: 14px;
         }
 
-        /* Strict Grid Matching Image 1000059200.jpg */
+        /* Table Design */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -271,7 +271,6 @@
 </head>
 <body>
 
-    <!-- Portal Container (Matches Image 1000059211.jpg) -->
     <div id="portal-container">
         <svg class="icon-books" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20M4 19.5V4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -286,14 +285,12 @@
         </div>
     </div>
 
-    <!-- Dashboard Container -->
     <div id="dashboard-container">
         <div class="nav-header">
             <h2 id="view-title">Espace Étudiant - Tableau Morphosyntaxique</h2>
             <button class="btn btn-back" onclick="logout()">Retour au profil</button>
         </div>
 
-        <!-- Admin Control Panel -->
         <div id="admin-panel" class="admin-controls">
             <strong>Nouvelle entrée (Cause) :</strong>
             <input type="text" id="ins-conj-ex" placeholder="Ex: Comme il a bien travaillé..." style="width: 250px;">
@@ -304,7 +301,6 @@
             <button class="btn btn-admin" onclick="addNewRowRow()" style="padding: 8px 16px; font-size:13px;">Ajouter au tableau</button>
         </div>
 
-        <!-- Strict Structural Table Layout -->
         <table>
             <thead>
                 <tr>
@@ -314,7 +310,6 @@
                 </tr>
             </thead>
             <tbody id="table-body">
-                <!-- Row Pivot Component (Matches Image 1000059200.jpg exactly) -->
                 <tr>
                     <td class="row-span-header" id="main-cause-td" rowspan="1">
                         Proposition subordonnée circonstancielle de <strong>cause</strong>
@@ -336,7 +331,6 @@
             </tbody>
         </table>
 
-        <!-- Reliable Bibliographies Section -->
         <div class="references-section">
             <h3>Sources & Références Bibliographiques</h3>
             <ol id="references-list">
@@ -347,20 +341,19 @@
         </div>
     </div>
 
-    <!-- Mandatory Footer Alignment -->
     <footer>
         Morphosyntaxe 2 · Semestre 4 · 2026 · Ecole Supérieure de l'Éducation et de Formation, Agadir
     </footer>
 
     <script>
-        // Obfuscated Admin Credential Verification (Base64 of ESEF2026 is RVNFRjIwMjY=)
-        const sec key = "RVNFRjIwMjY=";
+        // Obfuscated Admin Token: "ESEF2026"
+        const tokenVal = "RVNFRjIwMjY=";
         let activeMode = "student";
 
         function enterApp(mode) {
             if (mode === 'admin') {
                 const accessCode = prompt("Veuillez saisir le code d'accès Admin :");
-                if (btoa(accessCode) === "RVNFRjIwMjY=") {
+                if (accessCode && btoa(accessCode) === tokenVal) {
                     activeMode = "admin";
                     document.getElementById('admin-panel').style.display = 'flex';
                     document.getElementById('view-title').innerText = "Espace Admin - Gestion Universitaire";
@@ -404,9 +397,10 @@
             const tbody = document.getElementById('table-body');
             const rowCount = tbody.querySelectorAll('tr').length;
             
-            // Adjust the rowSpan for the main static Cause Cell dynamically
             const mainCauseTd = document.getElementById('main-cause-td');
-            mainCauseTd.rowSpan = rowCount + 1;
+            if (mainCauseTd) {
+                mainCauseTd.rowSpan = rowCount + 1;
+            }
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -424,7 +418,7 @@
             `;
             tbody.appendChild(tr);
 
-            // Clean form inputs
+            // Clean inputs
             document.getElementById('ins-conj-ex').value = '';
             document.getElementById('ins-poly1-ex').value = '';
             document.getElementById('ins-poly2-ex').value = '';
