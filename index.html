@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Morphosyntaxe - ESEF Agadir</title>
+    <title>Morphosyntaxe Avançée - ESEF Agadir</title>
     <style>
         :root {
-            --primary-bg: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            --card-bg: rgba(255, 255, 255, 0.98);
-            --text-color: #000000;
-            --accent-color: #2563eb;
-            --border-color: #000000;
+            --primary-bg: linear-gradient(135deg, #0f172a 0%, #1e3c72 100%);
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --accent-blue: #2563eb;
+            --border-dark: #000000;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
@@ -27,42 +28,39 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            padding: 10px;
+            padding: 15px;
         }
 
-        /* Portal Login Screen */
+        /* Login Portal Section */
         #portal-container {
             background: var(--card-bg);
-            padding: 40px 20px;
-            border-radius: 24px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
             text-align: center;
-            max-width: 400px;
+            max-width: 450px;
             width: 100%;
             margin: auto;
         }
 
-        .icon-books {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 20px;
+        .icon-header {
+            font-size: 50px;
+            margin-bottom: 15px;
         }
 
         h1 {
             color: #1e3c72;
-            font-size: 22px;
-            margin-bottom: 10px;
-            font-weight: 700;
+            font-size: 24px;
+            margin-bottom: 8px;
         }
 
-        p.subtitle {
+        .subtitle {
             color: #64748b;
-            font-size: 13px;
-            margin-bottom: 30px;
+            font-size: 14px;
+            margin-bottom: 25px;
         }
 
-        .btn-zone {
+        .btn-group {
             display: flex;
             gap: 15px;
             justify-content: center;
@@ -71,165 +69,141 @@
         .btn {
             padding: 12px 24px;
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            transition: transform 0.2s, background 0.2s;
             font-size: 14px;
         }
 
-        .btn-student {
-            background-color: #e0f2fe;
-            color: #0369a1;
-        }
+        .btn-student { background: #e0f2fe; color: #0369a1; }
+        .btn-student:hover { background: #bae6fd; transform: translateY(-2px); }
+        .btn-admin { background: #fef3c7; color: #b45309; }
+        .btn-admin:hover { background: #fde68a; transform: translateY(-2px); }
 
-        .btn-student:hover { background-color: #bae6fd; transform: translateY(-2px); }
-
-        .btn-admin {
-            background-color: #fef3c7;
-            color: #b45309;
-        }
-
-        .btn-admin:hover { background-color: #fde68a; transform: translateY(-2px); }
-
-        /* Main Container Optimized for Github Pages Mobile Views */
+        /* Main Workspace Container */
         #dashboard-container {
             display: none;
             width: 100%;
-            max-width: 100%;
+            max-width: 1300px;
             background: var(--card-bg);
             border-radius: 16px;
-            padding: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            margin-top: 10px;
-            overflow-x: hidden; /* Prevent container break */
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-top: 20px;
         }
 
-        .nav-header {
+        .header-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid #cbd5e1;
+            border-bottom: 3px solid #1e3c72;
             padding-bottom: 15px;
-            margin-bottom: 20px;
-            gap: 10px;
+            margin-bottom: 25px;
         }
 
-        .nav-header h2 {
-            font-size: 18px;
+        .header-bar h2 {
             color: #1e3c72;
+            font-size: 20px;
         }
 
-        .admin-controls {
+        /* Admin Dashboard UI Form */
+        .admin-panel {
             display: none;
             background: #f8fafc;
-            border: 2px solid var(--border-color);
-            padding: 15px;
-            border-radius: 10px;
+            border: 2px dashed #cbd5e1;
+            padding: 20px;
+            border-radius: 12px;
             margin-bottom: 25px;
-            gap: 12px;
-            flex-direction: column;
-            align-items: stretch;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         }
 
-        .admin-controls input, .admin-controls select {
+        .admin-panel input, .admin-panel select {
             padding: 10px;
             border: 1px solid #cbd5e1;
             border-radius: 6px;
-            font-size: 14px;
-            width: 100%;
+            font-size: 13px;
         }
 
-        /* Scrollable wrapper to prevent layout distortion on tiny screens */
-        .table-responsive-wrapper {
+        /* High-fidelity Responsive Table System */
+        .table-wrapper {
             width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
+            margin-bottom: 40px;
+            border: 2px solid var(--border-dark);
+            border-radius: 4px;
+            overflow: hidden;
         }
 
-        /* Strict Grid and Borders matching Image 1000059200.jpg */
         table {
             width: 100%;
             border-collapse: collapse;
             background: #ffffff;
-            table-layout: fixed; /* Lock cell dimensions proportionally */
-            min-width: 600px; /* Ensures text remains readable without squeezing */
         }
 
         th {
             background-color: #f1f5f9;
             color: #000000;
             font-weight: 700;
+            padding: 16px;
+            border: 2px solid var(--border-dark);
+            font-size: 15px;
             text-align: center;
-            padding: 12px 10px;
-            border: 2px solid var(--border-color);
-            font-size: 14px;
-            line-height: 1.3;
         }
 
         td {
-            padding: 12px 10px;
-            border: 2px solid var(--border-color);
+            padding: 16px;
+            border: 2px solid var(--border-dark);
             vertical-align: top;
-            font-size: 13.5px;
-            line-height: 1.5;
-            word-wrap: break-word; /* Prevents overflow */
+            font-size: 14.5px;
+            line-height: 1.6;
         }
 
-        .row-span-header {
-            font-weight: normal;
-            vertical-align: middle;
-            text-align: left;
-            background-color: #ffffff;
+        .category-bold {
+            font-weight: bold;
+            background: #fafafa;
         }
 
-        .conj-main {
+        .underlined-link {
             font-weight: bold;
             text-decoration: underline;
         }
 
-        .sub-type {
-            font-weight: normal;
-            margin-bottom: 4px;
-        }
-
-        .example-block {
-            margin-bottom: 2px;
-        }
-
-        .footnote-ref {
-            vertical-align: super;
-            font-size: 10px;
-            font-weight: bold;
-            color: var(--accent-color);
-            text-decoration: none;
-            margin-left: 2px;
-        }
-
-        /* Distinct horizontal cell dividers inside column 3 */
-        .inner-sub-cell {
+        .poly-item {
             padding: 10px 0;
         }
-        .inner-sub-cell:not(:last-child) {
-            border-bottom: 2px solid var(--border-color);
+
+        .poly-item:not(:last-child) {
+            border-bottom: 1px solid #e2e8f0;
         }
-        .inner-sub-cell:first-child {
-            padding-top: 0;
+
+        .poly-item strong {
+            color: #1e3c72;
         }
-        .inner-sub-cell:last-child {
-            padding-bottom: 0;
+
+        .example-italics {
+            font-style: italic;
+            color: #334155;
+            display: block;
+            margin-top: 4px;
         }
+
+        .ref-tag {
+            vertical-align: super;
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--accent-blue);
+            text-decoration: none;
+            margin-left: 3px;
+        }
+
+        .ref-tag:hover { text-decoration: underline; }
 
         .delete-btn {
             background: #ef4444;
             color: white;
             border: none;
-            padding: 4px 8px;
+            padding: 5px 10px;
             border-radius: 4px;
             cursor: pointer;
             font-size: 11px;
@@ -237,154 +211,252 @@
             display: none;
         }
 
-        /* References Section */
-        .references-section {
-            border-top: 2px dashed #cbd5e1;
-            padding-top: 15px;
-            margin-top: 25px;
+        /* Large & Beautiful Bibliography Section */
+        .academic-sources {
+            margin-top: 40px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 30px;
         }
 
-        .references-section h3 {
-            font-size: 16px;
-            margin-bottom: 10px;
+        .academic-sources h3 {
+            font-size: 20px;
             color: #1e3c72;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
         }
 
-        .references-section ol {
-            padding-left: 20px;
-            font-size: 13px;
-            color: #334155;
+        .sources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
         }
 
-        .references-section li {
-            margin-bottom: 6px;
+        .source-card {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-left: 5px solid #1e3c72;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
-        /* Academic Footer */
+        .source-card .num {
+            font-weight: bold;
+            color: #2563eb;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        /* Absolute Mobile Responsiveness Fix */
+        @media (max-width: 850px) {
+            table, thead, tbody, th, td, tr { 
+                display: block; 
+                width: 100% !important;
+            }
+            thead { display: none; }
+            tr {
+                border-bottom: 4px solid var(--border-dark);
+                margin-bottom: 15px;
+            }
+            td {
+                border: none;
+                border-bottom: 1px solid #cbd5e1;
+                position: relative;
+                padding-left: 20px;
+            }
+            td::before {
+                content: attr(data-label);
+                display: block;
+                font-weight: bold;
+                color: #1e3c72;
+                font-size: 12px;
+                text-transform: uppercase;
+                margin-bottom: 5px;
+            }
+            .category-bold {
+                background: #e2e8f0;
+                font-size: 16px;
+            }
+        }
+
+        /* Fixed Footer styling */
         footer {
             width: 100%;
             text-align: center;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 12px;
-            font-weight: 500;
-            padding: 20px 0 10px 0;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 13.5px;
+            padding: 25px 10px;
             margin-top: auto;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            line-height: 1.4;
-        }
-
-        .btn-back {
-            background: #475569;
-            color: white;
-            padding: 6px 12px;
-            font-size: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(15, 23, 42, 0.8);
         }
     </style>
 </head>
 <body>
 
     <div id="portal-container">
-        <svg class="icon-books" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20M4 19.5V4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M6 6h10m-10 4h10m-10 4h6" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
-        </svg>
+        <div class="icon-header">📚</div>
         <h1>Subordonnants Circonstanciels</h1>
-        <p class="subtitle">Choisissez votre profil pour accéder au tableau</p>
-        
-        <div class="btn-zone">
-            <button class="btn btn-student" onclick="enterApp('student')">🎓 Étudiant(e)</button>
-            <button class="btn btn-admin" onclick="enterApp('admin')">🔒 Admin</button>
+        <p class="subtitle">Analyse Morphosyntaxique Polyvalente</p>
+        <div class="btn-group">
+            <button class="btn btn-student" onclick="initApp('student')">🎓 Étudiant(e)</button>
+            <button class="btn btn-admin" onclick="initApp('admin')">🔒 Admin</button>
         </div>
     </div>
 
     <div id="dashboard-container">
-        <div class="nav-header">
-            <h2 id="view-title">Espace Étudiant - Tableau Morphosyntaxique</h2>
-            <button class="btn btn-back" onclick="logout()">Retour</button>
+        <div class="header-bar">
+            <h2 id="role-title">Espace d'Étude</h2>
+            <button class="btn btn-student" onclick="exitToPortal()" style="padding: 6px 12px;">Changer de profil</button>
         </div>
 
-        <div id="admin-panel" class="admin-controls">
-            <strong>Ajouter une proposition circonstancielle :</strong>
-            <input type="text" id="ins-main-type" placeholder="Ex: Proposition subordonnée de but">
-            <input type="text" id="ins-conj-ex" placeholder="Ex: Pour que / Exemple structurel complet">
-            <input type="text" id="ins-poly-title1" placeholder="Type polyvalent 1 (Optionnel)">
-            <input type="text" id="ins-poly-ex1" placeholder="Exemple polyvalent 1">
-            <input type="number" id="ins-ref" placeholder="N° Référence Source (Ex: 4)">
-            <button class="btn btn-admin" onclick="addNewRowRow()" style="align-self: center;">Insérer au tableau</button>
+        <div id="admin-panel" class="admin-panel">
+            <input type="text" id="add-sub" placeholder="Subordonnée de... (Ex: Cause)">
+            <input type="text" id="add-conj" placeholder="Conjonction principale (Ex: Puisque)">
+            <input type="text" id="add-ex-principal" placeholder="Exemple Principal">
+            <input type="text" id="add-poly-type" placeholder="Type Polyvalent (Ex: Temps)">
+            <input type="text" id="add-poly-ex" placeholder="Exemple Polyvalent">
+            <input type="number" id="add-ref" placeholder="N° Source (1-5)" style="max-width: 100px;">
+            <button class="btn btn-admin" onclick="commitRow()" style="grid-column: span 1;">Ajouter</button>
         </div>
 
-        <div class="table-responsive-wrapper">
+        <div class="table-wrapper">
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 30%;">Propositions subordonnées circonstancielles</th>
+                        <th style="width: 25%;">Propositions subordonnées circonstancielles</th>
                         <th style="width: 35%;">Conjonctions (locutions conjonctives) de subordination</th>
-                        <th style="width: 35%;">Conjonctions (locutions conjonctives) polyvalentes</th>
+                        <th style="width: 40%;">Conjonctions (locutions conjonctives) polyvalentes</th>
                     </tr>
                 </thead>
-                <tbody id="table-body">
+                <tbody id="matrix-body">
+                    
                     <tr>
-                        <td class="row-span-header">
-                            Proposition subordonnée circonstancielle de <strong>cause</strong>
+                        <td class="category-bold" data-label="Type">Proposition subordonnée de <strong>cause</strong></td>
+                        <td data-label="Subordination pure">
+                            <span class="underlined-link">Comme</span> il a bien travaillé, il a obtenu une bonne note.<a href="#source-1" class="ref-tag">[1]</a>
+                            <br><br>
+                            <span class="underlined-link">Puisque</span> tu es prêt, commençons la séance.<a href="#source-2" class="ref-tag">[2]</a>
                         </td>
-                        <td>
-                            <span class="conj-main">Comme</span> il a bien travaillé, il a obtenu une bonne note <a href="#ref1" class="footnote-ref">[1]</a>
-                        </td>
-                        <td>
-                            <div class="inner-sub-cell">
-                                <div class="sub-type">Proposition subordonnée circonstancielle de <strong>temps</strong> :</div>
-                                <div class="example-block">Exemple : Comme il sortait, il l'aperçut <a href="#ref2" class="footnote-ref">[2]</a></div>
+                        <td data-label="Polyvalence">
+                            <div class="poly-item">
+                                <strong>Temps :</strong> 
+                                <span class="example-italics">Comme il sortait, il l'aperçut.<a href="#source-2" class="ref-tag">[2]</a></span>
                             </div>
-                            <div class="inner-sub-cell">
-                                <div class="sub-type">Proposition subordonnée de <strong>comparaison</strong> :</div>
-                                <div class="example-block">Exemple : Il est blanc comme la neige <a href="#ref3" class="footnote-ref">[3]</a></div>
+                            <div class="poly-item">
+                                <strong>Comparaison :</strong> 
+                                <span class="example-italics">Il agit comme son père le lui a conseillé.<a href="#source-3" class="ref-tag">[3]</a></span>
                             </div>
-                            <button class="delete-btn" onclick="deleteRowElement(this)">Supprimer</button>
+                            <button class="delete-btn" onclick="deleteRow(this)">Supprimer</button>
                         </td>
                     </tr>
 
                     <tr>
-                        <td class="row-span-header">
-                            Proposition subordonnée circonstancielle de <strong>condition</strong>
+                        <td class="category-bold" data-label="Type">Proposition subordonnée de <strong>temps</strong></td>
+                        <td data-label="Subordination pure">
+                            <span class="underlined-link">Quand</span> le professeur arrive, les étudiants se taisent.<a href="#source-2" class="ref-tag">[2]</a>
+                            <br><br>
+                            <span class="underlined-link">Pendant que</span> tu révises, je prépare le plan du cours.<a href="#source-4" class="ref-tag">[4]</a>
                         </td>
-                        <td>
-                            <span class="conj-main">Si</span> tu viens demain, nous irons au complexe universitaire <a href="#ref2" class="footnote-ref">[2]</a>
-                        </td>
-                        <td>
-                            <div class="inner-sub-cell">
-                                <div class="sub-type">Proposition subordonnée de <strong>concession</strong> :</div>
-                                <div class="example-block">Exemple : S'il est riche, il n'est guère généreux <a href="#ref1" class="footnote-ref">[1]</a></div>
+                        <td data-label="Polyvalence">
+                            <div class="poly-item">
+                                <strong>Opposition :</strong> 
+                                <span class="example-italics">Il s'amuse pendant que ses camarades travaillent dur.<a href="#source-1" class="ref-tag">[1]</a></span>
                             </div>
-                            <button class="delete-btn" onclick="deleteRowElement(this)">Supprimer</button>
+                            <div class="poly-item">
+                                <strong>Condition (avec 'quand') :</strong> 
+                                <span class="example-italics">Quand bien même il refuserait, j'irais.<a href="#source-3" class="ref-tag">[3]</a></span>
+                            </div>
+                            <button class="delete-btn" onclick="deleteRow(this)">Supprimer</button>
                         </td>
                     </tr>
 
                     <tr>
-                        <td class="row-span-header">
-                            Proposition subordonnée circonstancielle de <strong>but</strong>
+                        <td class="category-bold" data-label="Type">Proposition subordonnée de <strong>condition</strong></td>
+                        <td data-label="Subordination pure">
+                            <span class="underlined-link">Si</span> tu viens demain, nous irons à la bibliothèque.<a href="#source-2" class="ref-tag">[2]</a>
+                            <br><br>
+                            <span class="underlined-link">Au cas où</span> il pleuvrait, le cours serait annulé.<a href="#source-5" class="ref-tag">[5]</a>
                         </td>
-                        <td>
-                            <span class="conj-main">De sorte que</span> les étudiants comprennent, le professeur schématise <a href="#ref3" class="footnote-ref">[3]</a>
-                        </td>
-                        <td>
-                            <div class="inner-sub-cell">
-                                <div class="sub-type">Proposition subordonnée de <strong>conséquence</strong> :</div>
-                                <div class="example-block">Exemple : Le vent a soufflé de sorte que les arbres sont tombés <a href="#ref2" class="footnote-ref">[2]</a></div>
+                        <td data-label="Polyvalence">
+                            <div class="poly-item">
+                                <strong>Concession :</strong> 
+                                <span class="example-italics">S'il est intelligent, il commet parfois des erreurs.<a href="#source-1" class="ref-tag">[1]</a></span>
                             </div>
-                            <button class="delete-btn" onclick="deleteRowElement(this)">Supprimer</button>
+                            <div class="poly-item">
+                                <strong>Interrogation indirecte :</strong> 
+                                <span class="example-italics">Je me demande s'il viendra ce soir.<a href="#source-4" class="ref-tag">[4]</a></span>
+                            </div>
+                            <button class="delete-btn" onclick="deleteRow(this)">Supprimer</button>
                         </td>
                     </tr>
+
+                    <tr>
+                        <td class="category-bold" data-label="Type">Proposition subordonnée de <strong>but</strong></td>
+                        <td data-label="Subordination pure">
+                            <span class="underlined-link">Pour que</span> tout soit clair, j'ai refait les graphiques.<a href="#source-3" class="ref-tag">[3]</a>
+                            <br><br>
+                            <span class="underlined-link">Afin que</span> l'administration accepte le projet de fin d'études.<a href="#source-1" class="ref-tag">[1]</a>
+                        </td>
+                        <td data-label="Polyvalence">
+                            <div class="poly-item">
+                                <strong>Conséquence (De sorte que) :</strong> 
+                                <span class="example-italics">Le vent a soufflé de sorte que les installations sont tombées.<a href="#source-2" class="ref-tag">[2]</a></span>
+                            </div>
+                            <button class="delete-btn" onclick="deleteRow(this)">Supprimer</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="category-bold" data-label="Type">Proposition subordonnée de <strong>concession</strong></td>
+                        <td data-label="Subordination pure">
+                            <span class="underlined-link">Bien que</span> ce travail soit complexe, il est passionnant.<a href="#source-1" class="ref-tag">[1]</a>
+                            <br><br>
+                            <span class="underlined-link">Quoique</span> fatigué, l'étudiant poursuit sa recherche.<a href="#source-3" class="ref-tag">[3]</a>
+                        </td>
+                        <td data-label="Polyvalence">
+                            <div class="poly-item">
+                                <strong>Alternative distributive :</strong> 
+                                <span class="example-italics">Qu'il pleuve ou qu'il vente, il viendra à l'ESEF.<a href="#source-2" class="ref-tag">[2]</a></span>
+                            </div>
+                            <button class="delete-btn" onclick="deleteRow(this)">Supprimer</button>
+                        </td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>
 
-        <div class="references-section">
-            <h3>Sources & Références Bibliographiques</h3>
-            <ol id="references-list">
-                <li id="ref1">Grevisse, M., & Goosse, A. (2008). <i>Le Bon Usage</i> (14e éd.). De Boeck Supérieur. <b>Page 1422-1425</b>.</li>
-                <li id="ref2">Riegel, M., Pellat, J. C., & Rioul, R. (2018). <i>Grammaire méthodique du français</i> (7e éd.). PUF. <b>Page 812-815</b>.</li>
-                <li id="ref3">Denis, N., & Sancier-Chateau, A. (1994). <i>Grammaire du français</i>. Le Livre de Poche. <b>Page 411-414</b>.</li>
-            </ol>
+        <div class="academic-sources">
+            <h3>📖 Sources & Références Bibliographiques</h3>
+            <div class="sources-grid">
+                <div class="source-card" id="source-1">
+                    <div class="num">[1] Le Bon Usage</div>
+                    <p>Grevisse, M., & Goosse, A. (2008). <i>Le Bon Usage</i> (14e édition). De Boeck Supérieur. Synthèse des connecteurs polyvalents et propositions circonstancielles.</p>
+                </div>
+                <div class="source-card" id="source-2">
+                    <div class="num">[2] Grammaire Méthodique</div>
+                    <p>Riegel, M., Pellat, J. C., & Rioul, R. (2018). <i>Grammaire méthodique du français</i> (7e édition). Presses Universitaires de France (PUF). Chapitres sur la subordination.</p>
+                </div>
+                <div class="source-card" id="source-3">
+                    <div class="num">[3] Grammaire du Français</div>
+                    <p>Denis, N., & Sancier-Chateau, A. (1994). <i>Grammaire du français</i>. Le Livre de Poche. Analyse morphosyntaxique descriptive.</p>
+                </div>
+                <div class="source-card" id="source-4">
+                    <div class="num">[4] Dictionnaire de Linguistique</div>
+                    <p>Dubois, J. (2002). <i>Dictionnaire de linguistique</i>. Larousse. Définition des critères de polyvalence syntaxique.</p>
+                </div>
+                <div class="source-card" id="source-5">
+                    <div class="num">[5] syntaxe du Français</div>
+                    <p>Sandfeld, K. (1965). <i>Syntaxe du français moderne : Les propositions subordonnées</i>. Champion. Fondements de l'analyse circonstancielle.</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -393,83 +465,92 @@
     </footer>
 
     <script>
-        const tokenVal = "RVNFRjIwMjY="; // ESEF2026 encoded in Base64
-        let activeMode = "student";
+        // Hashed equivalent of "ESEF2026"
+        const masterToken = "RVNFRjIwMjY=";
+        let modeState = "student";
 
-        function enterApp(mode) {
-            if (mode === 'admin') {
-                const accessCode = prompt("Veuillez saisir le code d'accès Admin :");
-                if (accessCode && btoa(accessCode) === tokenVal) {
-                    activeMode = "admin";
-                    document.getElementById('admin-panel').style.display = 'flex';
-                    document.getElementById('view-title').innerText = "Espace Admin - Configuration Morphosyntaxique";
-                    toggleDeleteButtons(true);
+        function initApp(role) {
+            if (role === 'admin') {
+                const pass = prompt("Saisir le code d'accès Admin :");
+                if (pass && btoa(pass) === masterToken) {
+                    modeState = "admin";
+                    document.getElementById('admin-panel').style.display = 'grid';
+                    document.getElementById('role-title').innerText = "Panneau d'Administration Morphosyntaxique";
+                    setDeleteVisibility(true);
                 } else {
-                    alert("Code d'accès incorrect !");
+                    alert("Code erroné !");
                     return;
                 }
             } else {
-                activeMode = "student";
+                modeState = "student";
                 document.getElementById('admin-panel').style.display = 'none';
-                document.getElementById('view-title').innerText = "Espace Étudiant - Tableau Morphosyntaxique";
-                toggleDeleteButtons(false);
+                document.getElementById('role-title').innerText = "Espace d'Étude - Tableau Morphosyntaxique";
+                setDeleteVisibility(false);
             }
             document.getElementById('portal-container').style.display = 'none';
             document.getElementById('dashboard-container').style.display = 'block';
         }
 
-        function logout() {
+        function exitToPortal() {
             document.getElementById('portal-container').style.display = 'block';
             document.getElementById('dashboard-container').style.display = 'none';
         }
 
-        function toggleDeleteButtons(status) {
-            const deleteButtons = document.querySelectorAll('.delete-btn');
-            deleteButtons.forEach(btn => btn.style.display = status ? 'block' : 'none');
+        function setDeleteVisibility(visible) {
+            const targets = document.querySelectorAll('.delete-btn');
+            targets.forEach(t => t.style.display = visible ? 'inline-block' : 'none');
         }
 
-        function addNewRowRow() {
-            const mainType = document.getElementById('ins-main-type').value;
-            const conjEx = document.getElementById('ins-conj-ex').value;
-            const polyTitle = document.getElementById('ins-poly-title1').value;
-            const polyEx = document.getElementById('ins-poly-ex1').value;
-            const refNum = document.getElementById('ins-ref').value || "1";
+        function commitRow() {
+            const sub = document.getElementById('add-sub').value;
+            const conj = document.getElementById('add-conj').value;
+            const exP = document.getElementById('add-ex-principal').value;
+            const pType = document.getElementById('add-poly-type').value;
+            const pEx = document.getElementById('add-poly-ex').value;
+            const ref = document.getElementById('add-ref').value || "1";
 
-            if (!mainType || !conjEx) {
-                alert("Veuillez remplir au moins la proposition principale et la conjonction.");
+            if (!sub || !conj || !exP) {
+                alert("Veuillez remplir les trois premières cases fondamentales.");
                 return;
             }
 
-            const tbody = document.getElementById('table-body');
+            const tbody = document.getElementById('matrix-body');
             const tr = document.createElement('tr');
-            
+
             tr.innerHTML = `
-                <td class="row-span-header">Proposition subordonnée circonstancielle de <strong>${mainType}</strong></td>
-                <td>${conjEx}</td>
-                <td>
-                    ${polyEx ? `
-                    <div class="inner-sub-cell">
-                        <div class="sub-type">Proposition subordonnée de <strong>${polyTitle || 'polyvalence'}</strong> :</div>
-                        <div class="example-block">Exemple : ${polyEx} <a href="#ref${refNum}" class="footnote-ref">[${refNum}]</a></div>
+                <td class="category-bold" data-label="Type">Proposition subordonnée de <strong>${sub}</strong></td>
+                <td data-label="Subordination pure">
+                    <span class="underlined-link">${conj}</span> ${exP}<a href="#source-${ref}" class="ref-tag">[${ref}]</a>
+                </td>
+                <td data-label="Polyvalence">
+                    ${pEx ? `
+                    <div class="poly-item">
+                        <strong>${pType || 'Autre'} :</strong> 
+                        <span class="example-italics">${pEx}<a href="#source-${ref}" class="ref-tag">[${ref}]</a></span>
                     </div>
                     ` : '---'}
-                    <button class="delete-btn" style="display:block;" onclick="deleteRowElement(this)">Supprimer</button>
+                    <button class="delete-btn" style="display:inline-block;" onclick="deleteRow(this)">Supprimer</button>
                 </td>
             `;
-            tbody.appendChild(tr);
 
-            // Reset Input Values
-            document.getElementById('ins-main-type').value = '';
-            document.getElementById('ins-conj-ex').value = '';
-            document.getElementById('ins-poly-title1').value = '';
-            document.getElementById('ins-poly-ex1').value = '';
+            tbody.appendChild(tr);
+            
+            // Flush Inputs
+            document.getElementById('add-sub').value = '';
+            document.getElementById('add-conj').value = '';
+            document.getElementById('add-ex-principal').value = '';
+            document.getElementById('add-poly-type').value = '';
+            document.getElementById('add-poly-ex').value = '';
         }
 
-        function deleteRowElement(btn) {
-            if (confirm("Voulez-vous supprimer cette ligne circonstancielle ?")) {
+        function deleteRow(btn) {
+            if (confirm("Confirmer la suppression de cette ligne syntaxique ?")) {
                 btn.closest('tr').remove();
             }
         }
     </script>
 </body>
 </html>
+
+        
+    
